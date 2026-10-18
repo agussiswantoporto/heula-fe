@@ -20,31 +20,40 @@
   --color-content-muted: var(--content-muted);
   --color-danger: #e5484d;
 
-  --radius-card: 1.25rem;
+  --radius-card: 1.5rem;
+  --radius-control: 0.875rem;
   --radius-pill: 9999px;
 
-  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.06);
-  --shadow-sheet: 0 -8px 32px rgba(16, 24, 40, 0.12);
+  /* Hairline border + frosted tab-bar alphas for primitives to reference. */
+  --hairline: var(--border);
+  --frost-surface: var(--frost);
+
+  --shadow-card:
+    0 1px 2px rgba(16, 24, 40, 0.03), 0 10px 30px rgba(16, 24, 40, 0.05);
+  --shadow-sheet: 0 -10px 40px rgba(16, 24, 40, 0.14);
 }
 
-/* Light theme (default). */
+/* Light theme (default). Slightly cooler/greyer grouped-list background. */
 :root {
-  --bg: #f7f8f8;
+  --bg: #f2f3f5;
   --surface: #ffffff;
-  --surface-2: #f1f3f4;
-  --border: #e6e8ea;
+  --surface-2: #eceef1;
+  --border: #e2e5e9;
   --content: #16181a;
   --content-muted: #6b7280;
+  --frost: rgba(255, 255, 255, 0.72);
 }
 
-/* Dark theme (applied when <html> carries the `dark` class). */
+/* Dark theme (applied when <html> carries the `dark` class). True near-black
+ * grouped surfaces tuned for contrast. */
 .dark {
-  --bg: #0b0d0e;
-  --surface: #15181a;
-  --surface-2: #1e2224;
-  --border: #2a2f33;
-  --content: #f3f5f6;
-  --content-muted: #9aa3ab;
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --border: #38383a;
+  --content: #f5f5f7;
+  --content-muted: #98989f;
+  --frost: rgba(28, 28, 30, 0.72);
 }
 
 @layer base {

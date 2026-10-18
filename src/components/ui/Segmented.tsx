@@ -29,7 +29,7 @@ export function Segmented<T extends string>({
     <div
       role="radiogroup"
       aria-label={ariaLabel}
-      className="flex gap-1 rounded-pill bg-surface-2 p-1"
+      className="flex gap-1 rounded-control bg-surface-2 p-1"
     >
       {options.map((opt) => {
         const active = opt.value === value;
@@ -40,13 +40,13 @@ export function Segmented<T extends string>({
             role="radio"
             aria-checked={active}
             onClick={() => onChange(opt.value)}
-            className="relative flex-1 rounded-pill px-3 py-2 text-sm font-medium"
+            className="relative flex-1 rounded-[0.625rem] px-3 py-2 text-sm font-medium"
           >
             {active && (
               <motion.span
                 layoutId={`seg-${ariaLabel ?? "default"}`}
-                className="absolute inset-0 rounded-pill bg-surface shadow-card"
-                transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                className="absolute inset-0 rounded-[0.625rem] bg-surface shadow-card"
+                transition={{ type: "spring", stiffness: 450, damping: 38 }}
               />
             )}
             <span

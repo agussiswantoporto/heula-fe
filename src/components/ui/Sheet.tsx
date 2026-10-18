@@ -25,7 +25,7 @@ export function Sheet({ open, onClose, title, children, className }: SheetProps)
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/45"
             aria-hidden
           />
           <motion.div
@@ -35,9 +35,9 @@ export function Sheet({ open, onClose, title, children, className }: SheetProps)
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", stiffness: 400, damping: 38 }}
+            transition={{ type: "spring", stiffness: 360, damping: 36 }}
             className={cn(
-              "safe-bottom relative z-10 w-full max-w-[480px] rounded-t-[1.5rem] bg-surface px-4 pt-3 shadow-sheet",
+              "safe-bottom relative z-10 w-full max-w-[480px] rounded-t-card bg-surface px-4 pt-3 shadow-sheet",
               className,
             )}
           >
