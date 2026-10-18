@@ -41,7 +41,7 @@ export function BottomTabBar() {
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-[480px] px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
       <nav
         aria-label="Navigasi utama"
-        className="pointer-events-auto rounded-pill border border-hairline bg-[var(--frost-surface)] shadow-card backdrop-blur-xl backdrop-saturate-150"
+        className="pointer-events-auto rounded-pill border border-border bg-[var(--frost-surface)] shadow-card backdrop-blur-xl backdrop-saturate-150"
       >
         <ul className="flex items-stretch p-1.5">
           {TABS.map((tab) => {
