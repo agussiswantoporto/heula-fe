@@ -40,7 +40,7 @@ Catatan penting: service worker (offline + installable) sengaja dimatiin di `npm
 
 ## Pengingat
 
-Pengingat (saat buka atau mulai puasa) bersifat best-effort dari sisi klien. Pengingat pakai `setTimeout` dan cuma jalan selama tab aplikasi kebuka; gak ada jaminan pengiriman kalau tab ditutup (gak ada push backend). Kalau browser kamu gak dukung notifikasi atau izinnya ditolak, timer tetap jalan normal.
+Pengingat (saat buka atau mulai puasa) dijadwalin lewat Service Worker, jadi bisa muncul walau aplikasi lagi ketutup. Sifatnya tetap best-effort: tergantung sistem operasi mau nahan Service Worker-nya tetap hidup, dan ini bukan alarm native (PWA gak bisa nyetel alarm/jam bawaan HP, cuma notifikasi web). Kalau Service Worker gak tersedia, ada fallback `setTimeout` di dalam halaman yang cuma jalan selama tab kebuka. Di iOS, PWA harus dipasang dulu ke layar utama (iOS 16.4+) biar notifikasi bisa aktif. Kalau browser kamu gak dukung notifikasi atau izinnya ditolak, timer tetap jalan normal.
 
 ## Smoke checklist (manual)
 

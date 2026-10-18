@@ -31,6 +31,11 @@ import {
   IoCheckmarkCircle,
   IoArrowForward,
   IoBarbellOutline,
+  IoDownloadOutline,
+  IoShareOutline,
+  IoCloseCircleOutline,
+  IoAlertCircleOutline,
+  IoWarningOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -59,6 +64,12 @@ const ICONS = {
   check: IoCheckmarkCircle,
   arrow_forward: IoArrowForward,
   exercise: IoBarbellOutline,
+  install: IoDownloadOutline,
+  share: IoShareOutline,
+  status_granted: IoCheckmarkCircle,
+  status_denied: IoCloseCircleOutline,
+  status_default: IoAlertCircleOutline,
+  status_unsupported: IoWarningOutline,
 } satisfies Record<IconKey, IconType>;
 
 export interface IconProps {

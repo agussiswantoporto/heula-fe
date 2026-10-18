@@ -214,13 +214,26 @@ export const copy = {
     dailyGoalTitle: "Target harian",
     dailyGoalHint: "Jam puasa yang kamu incar tiap hari.",
     reminderTitle: "Pengingat",
-    reminderSubtitle: "Pengingat ini best-effort dan jalan selama tab kebuka.",
+    reminderSubtitle:
+      "Kalau notifikasi kamu izinin dan Heula udah dipasang, pengingat bisa muncul walau aplikasi lagi ketutup. Sifatnya best-effort ya, tergantung HP kamu.",
     reminderEnd: "Ingatkan saat buka puasa",
     reminderStart: "Ingatkan saat mulai puasa",
+    reminderStatusLabel: "Status notifikasi",
+    reminderGranted: "Notifikasi aktif. Kita bakal ingetin kamu, best-effort ya.",
+    reminderDefault:
+      "Belum diizinkan. Nyalain dulu biar kita bisa ingetin kamu pas waktunya.",
     reminderDenied: "Notifikasi lagi dimatiin. Kamu masih bisa pakai timer kok.",
+    reminderDeniedHint:
+      "Kita gak bisa minta izin lagi dari sini. Kalau mau nyalain, atur manual di pengaturan browser atau HP kamu.",
     reminderUnsupported:
       "Browser kamu belum dukung notifikasi, tapi timer tetap jalan kok.",
+    reminderUnsupportedHint:
+      "Browser kamu belum dukung notifikasi, tapi timer tetap jalan kok.",
     reminderEnable: "Izinkan notifikasi",
+    installIOSTitle: "Pasang Heula ke layar utama",
+    installIOSBody:
+      "Biar makin enak dan pengingat bisa jalan, pasang Heula ke layar utama. Tap tombol Share di Safari, terus pilih Tambah ke Layar Utama. Di iOS, notifikasi baru aktif setelah Heula dipasang ya.",
+    installIOSDismiss: "Nanti aja",
     themeTitle: "Tampilan",
     themeSystem: "Ikut sistem",
     themeLight: "Terang",
