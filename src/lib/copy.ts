@@ -135,8 +135,41 @@ export const copy = {
     recommendationTitle: "Rekomendasi buat kamu",
     recommendationHint:
       "Ini saran kami, tapi kamu bebas pilih metode lain yang kamu mau.",
+    recommendedBadge: "Rekomendasi buat kamu",
+    methodListTitle: "Atau pilih metode lain",
+    fiveTwoTitle: "5:2 (info aja)",
+    fiveTwoDesc:
+      "Metode 5:2 puasa 2 hari seminggu, belum ada di timer. Jadiin info dulu ya.",
     confirm: "Mulai sekarang",
     next: "Lanjut",
+    back: "Kembali",
+    welcomeCta: "Yuk mulai",
+  },
+
+  /** Home timer screen copy. */
+  timer: {
+    idleTitle: "Belum lagi puasa",
+    idleBody: "Tap mulai kalau kamu udah siap. Timer bakal jalan dari sekarang.",
+    start: "Mulai puasa",
+    stop: "Sudahi puasa",
+    editStart: "Ubah waktu mulai",
+    elapsedLabel: "Udah jalan",
+    remainingLabel: "Sisa waktu",
+    targetEndLabel: "Target buka",
+    overfastLabel: "Lewat target",
+    planLabel: "Metode",
+    stopConfirmTitle: "Sudahi puasa sekarang?",
+    stopConfirmBody:
+      "Catatan puasa kamu bakal disimpan. Kamu bisa mulai lagi kapan aja.",
+    stopConfirmYes: "Ya, sudahi",
+    stopConfirmNo: "Lanjut puasa",
+    completeTitle: "Mantap, target kamu kelar! Mau lanjut atau sudahi?",
+    completeContinue: "Lanjut",
+    completeStop: "Sudahi",
+    editStartTitle: "Ubah waktu mulai",
+    editStartLabel: "Kapan kamu mulai puasa?",
+    editStartFuture: "Waktu mulai gak boleh di masa depan ya.",
+    editStartSave: "Simpan",
   },
 
   /** Settings / profile copy. */

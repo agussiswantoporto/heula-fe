@@ -1,14 +1,37 @@
+"use client";
+
 /**
- * Home placeholder (design Section 15). Fleshed out with the live timer in a
- * later FEAT; for now it renders the shell-safe page scaffold.
+ * Home (design Section 15).
+ *
+ * Gates on the persisted store: after hydration, if the user has not completed
+ * onboarding, redirect to `/onboarding`; otherwise render the live FastingTimer.
+ * The `hydrated` guard ensures storage-dependent UI never renders before the
+ * store rehydrates, avoiding an SSR/client mismatch.
  */
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/Spinner";
+import { FastingTimer } from "@/features/timer/FastingTimer";
+import { useAppStore } from "@/store/useAppStore";
+
 export default function HomePage() {
-  return (
-    <div className="px-4 pt-8">
-      <h1 className="text-2xl font-bold text-content">Heula</h1>
-      <p className="mt-2 text-sm text-content-muted">
-        Teman puasa kamu. Timer bakal muncul di sini.
-      </p>
-    </div>
-  );
+  const router = useRouter();
+  const hydrated = useAppStore((s) => s.hydrated);
+  const onboarded = useAppStore((s) => s.onboarded);
+
+  useEffect(() => {
+    if (hydrated && !onboarded) {
+      router.replace("/onboarding");
+    }
+  }, [hydrated, onboarded, router]);
+
+  if (!hydrated || !onboarded) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center">
+        <Spinner size={28} />
+      </div>
+    );
+  }
+
+  return <FastingTimer />;
 }
