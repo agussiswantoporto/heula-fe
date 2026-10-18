@@ -1,0 +1,29 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Project scaffold and toolchain: package.json with pinned deps + scripts, tsconfig (strict, webworker lib, @/* alias), next.config.ts wrapped by @serwist/next, Tailwind v4 postcss config, flat ESLint config with the no-restricted-imports guards, vitest config, .gitignore. This is the foundation every other FEAT builds on and is independent of all other FEATs except that they depend on it. Grounded in design.md Sections 2, 12.1, 16, 21.",
+  "status": "completed",
+  "steps": [
+    "Create package.json. dependencies (pinned EXACTLY, no ^): next@15.5.4, react@19.1.0, react-dom@19.1.0, serwist@9.5.1, @serwist/next@9.5.1, zustand@5.0.3, dexie@4.4.6, dexie-react-hooks@4.4.0, motion@12.23.0, date-fns@4.1.0, react-icons@5.4.0. devDependencies: typescript@5.9.2, @types/react@19.1.0, @types/react-dom@19.1.0, @types/node@22.10.0, tailwindcss@4.1.14, @tailwindcss/postcss@4.1.14, postcss@8.5.6, eslint (9.x), eslint-config-next@15.5.4, vitest (3.x). Scripts per design 21: dev='next dev', build='next build', start='next start', lint='eslint .', test='vitest run', test:watch='vitest'.",
+    "Create tsconfig.json: strict true, moduleResolution 'bundler', module 'esnext', target 'es2022', jsx 'preserve', lib ['dom','dom.iterable','esnext','webworker'] (webworker required for src/app/sw.ts under strict), paths { '@/*': ['./src/*'] }, plugins next, include src + next-env.d.ts, skipLibCheck true.",
+    "Create next.config.ts wrapping with @serwist/next per design 12.1: withSerwistInit({ swSrc: 'src/app/sw.ts', swDest: 'public/sw.js', disable: process.env.NODE_ENV === 'development' }); export default withSerwist({}).",
+    "Create postcss.config.mjs using '@tailwindcss/postcss' (Tailwind v4 is CSS-first; no tailwind.config.js).",
+    "Create eslint.config.mjs: flat config extending eslint-config-next (via FlatCompat or next's flat export). Add a no-restricted-imports rule banning 'lucide-react' and all 'react-icons/*' paths except 'react-icons/io5' (use patterns). Document (via an overrides note/comment and, where feasible, a rule) that src/db/*, 'dexie', and 'dexie-react-hooks' must only be imported from \"use client\" modules per design 9/16.",
+    "Create vitest.config.ts: node environment, resolve alias '@' -> ./src, include 'src/**/*.test.ts'.",
+    "Create .gitignore for a Next.js project (node_modules, .next, out, public/sw.js, public/sw.js.map, *.tsbuildinfo, .DS_Store, coverage).",
+    "Run `npm install` and resolve any exact-patch peer conflict by bumping only the patch within the same minor (record it in findings); majors/minors are frozen."
+  ],
+  "acceptance_criteria": [
+    "`npm install` completes successfully installing exactly the pinned versions (no ^ in package.json).",
+    "`npx tsc --noEmit` runs without configuration errors (absence of app source files is acceptable at this stage).",
+    "eslint.config.mjs loads without error (`npx eslint --print-config package.json` or `npx eslint . --no-error-on-unmatched-pattern` does not crash on config).",
+    "No icon-library dependency other than react-icons is present in package.json."
+  ],
+  "verification": [
+    "Run `npm install` and confirm it exits 0.",
+    "Run `npx tsc --noEmit` and confirm no config/type errors from the toolchain setup.",
+    "Run `npx eslint . --no-error-on-unmatched-pattern` and confirm the flat config loads (no 'Invalid config' crash)."
+  ],
+  "blocked_reason": null,
+  "findings": "Scaffold complete. All deps installed at EXACTLY the pinned versions (verified via npm ls / require('<pkg>/package.json').version): next 15.5.4, react/react-dom 19.1.0, serwist & @serwist/next 9.5.1, zustand 5.0.3, dexie 4.4.6, dexie-react-hooks 4.4.0 (deduped onto dexie 4.4.6 - peer satisfied), motion 12.23.0, date-fns 4.1.0, react-icons 5.4.0, typescript 5.9.2, @types/react & @types/react-dom 19.1.0, @types/node 22.10.0, tailwindcss & @tailwindcss/postcss 4.1.14, postcss 8.5.6, eslint 9.37.0, eslint-config-next 15.5.4, vitest 3.2.4. NO patch bumps were required - every pin installed as-is. npm install exited 0; the only noise was a non-fatal 'ERESOLVE overriding peer dependency' warn (expected with React 19 transitive peers) and deprecation warns for eslint 9.37.0 and next 15.5.4 (frozen majors/minors - left as-is per spec). ADDED ONE DEP not listed in the original step: devDependency @eslint/eslintrc@3.3.1 - REQUIRED because the Next 15 flat ESLint config uses FlatCompat to load eslint-config-next's next/core-web-vitals + next/typescript; without it eslint.config.mjs cannot load. eslint-config-next 15.5.4 does not yet ship a native flat export, so FlatCompat is the supported path. package-lock.json generated and committed. Verification: (1) npm install exit 0; (2) npx tsc --noEmit emits ONLY TS18003 'No inputs were found' because src/ has no files yet - this is the acceptable 'absence of app source files' state per acceptance_criteria, no config/type errors from the toolchain; (3) npx eslint . loads the flat config with no 'Invalid config' crash (exit 0; it only prints the Next plugin's informational note that a pages/ dir is absent). No icon dependency other than react-icons present; no '^' ranges anywhere in package.json. eslint.config.mjs enforces: ban lucide-react + all react-icons/* except react-icons/io5; and bans dexie / dexie-react-hooks / @/db imports from non-client surfaces (everything except src/db, src/features, src/components, src/store, and app page/layout files, which are the 'use client'-permitted modules). next.config.ts wraps config via withSerwistInit (swSrc src/app/sw.ts, swDest public/sw.js, disabled in development). tsconfig lib includes 'webworker' for sw.ts. public/sw.js(.map) gitignored (Serwist-generated at build time)."
+}
