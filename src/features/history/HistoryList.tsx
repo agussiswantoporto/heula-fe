@@ -82,10 +82,10 @@ export function HistoryList() {
   const groups = groupByDay(list, Date.now());
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-7">
       {groups.map((group) => (
         <section key={group.key}>
-          <h2 className="mb-2 text-sm font-semibold text-content-muted">
+          <h2 className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-content-muted">
             {group.label}
           </h2>
           <div className="flex flex-col gap-2">

@@ -20,7 +20,7 @@ export function WeeklyBarChart({ buckets }: WeeklyBarChartProps) {
 
   return (
     <div>
-      <p className="mb-3 text-sm font-semibold text-content">
+      <p className="mb-4 text-base font-semibold text-content">
         {copy.stats.weeklyTitle}
       </p>
       <div className="flex h-32 items-end justify-between gap-2">
@@ -34,7 +34,7 @@ export function WeeklyBarChart({ buckets }: WeeklyBarChartProps) {
             >
               <div className="flex h-24 w-full items-end justify-center">
                 <div
-                  className="w-6 rounded-pill bg-brand"
+                  className="w-6 rounded-control bg-brand"
                   style={{ height: `${heightPct}%` }}
                   aria-hidden
                 />

@@ -44,10 +44,10 @@ export function RecommendationStep({
 
   return (
     <div className="flex flex-1 flex-col">
-      <h1 className="text-xl font-bold text-content">
+      <h1 className="text-2xl font-bold tracking-tight text-content">
         {copy.onboarding.recommendationTitle}
       </h1>
-      <p className="mt-2 text-sm text-content-muted">
+      <p className="mt-2 text-sm leading-relaxed text-content-muted">
         {copy.onboarding.recommendationHint}
       </p>
 
@@ -67,7 +67,7 @@ export function RecommendationStep({
             {recommendation.rationale}
           </p>
           {recommendation.warning && (
-            <div className="mt-3 flex items-start gap-2 rounded-card bg-surface px-3 py-2">
+            <div className="mt-3 flex items-start gap-2 rounded-control bg-surface px-3 py-2">
               <Icon
                 name="about"
                 size={18}
@@ -94,7 +94,7 @@ export function RecommendationStep({
                   aria-pressed={active}
                   onClick={() => setSelected(id)}
                   className={cn(
-                    "flex items-center justify-between gap-3 rounded-card border px-4 py-3 text-left transition-colors",
+                    "flex items-center justify-between gap-3 rounded-control border px-4 py-3 text-left transition-colors",
                     active
                       ? "border-brand bg-surface-2"
                       : "border-border bg-surface",

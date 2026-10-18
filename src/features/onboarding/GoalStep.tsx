@@ -30,7 +30,7 @@ const GOAL_ORDER: Goal[] = [
 export function GoalStep({ value, onChange, onNext, onBack }: GoalStepProps) {
   return (
     <div className="flex flex-1 flex-col">
-      <h1 className="text-xl font-bold text-content">
+      <h1 className="text-2xl font-bold tracking-tight text-content">
         {copy.onboarding.goalQuestion}
       </h1>
 
@@ -44,7 +44,7 @@ export function GoalStep({ value, onChange, onNext, onBack }: GoalStepProps) {
               aria-pressed={active}
               onClick={() => onChange(goal)}
               className={cn(
-                "flex items-center justify-between gap-3 rounded-card border px-4 py-4 text-left transition-colors",
+                "flex items-center justify-between gap-3 rounded-control border px-4 py-4 text-left transition-colors",
                 active
                   ? "border-brand bg-surface-2"
                   : "border-border bg-surface",

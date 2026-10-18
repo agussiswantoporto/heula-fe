@@ -41,18 +41,20 @@ export function FastingTimer() {
   // Idle: no active fast. Stable render that matches SSR.
   if (!activeFast) {
     return (
-      <div className="flex min-h-full flex-col px-4 pt-8">
-        <h1 className="text-2xl font-bold text-content">Heula</h1>
+      <div className="safe-top flex min-h-full flex-col px-4 pt-8">
+        <h1 className="text-[34px] font-bold leading-tight tracking-tight text-content">
+          Heula
+        </h1>
         <div className="flex flex-1 flex-col items-center justify-center gap-6 py-10 text-center">
           <ProgressRing progress={0}>
-            <p className="font-mono text-4xl font-bold tabular-nums text-content">
+            <p className="font-mono text-5xl font-bold tracking-tight tabular-nums text-content">
               00:00:00
             </p>
-            <p className="mt-1 text-sm text-content-muted">
+            <p className="mt-1.5 text-sm font-medium text-content-muted">
               {copy.timer.idleTitle}
             </p>
           </ProgressRing>
-          <p className="max-w-xs text-sm text-content-muted">
+          <p className="max-w-xs text-sm leading-relaxed text-content-muted">
             {copy.timer.idleBody}
           </p>
         </div>
@@ -66,14 +68,16 @@ export function FastingTimer() {
   // Before the first client tick, render a stable placeholder (no clock read).
   if (nowMs === null) {
     return (
-      <div className="flex min-h-full flex-col px-4 pt-8">
-        <h1 className="text-2xl font-bold text-content">Heula</h1>
+      <div className="safe-top flex min-h-full flex-col px-4 pt-8">
+        <h1 className="text-[34px] font-bold leading-tight tracking-tight text-content">
+          Heula
+        </h1>
         <div className="flex flex-1 flex-col items-center justify-center gap-6 py-10 text-center">
           <ProgressRing progress={0}>
-            <p className="font-mono text-4xl font-bold tabular-nums text-content">
+            <p className="font-mono text-5xl font-bold tracking-tight tabular-nums text-content">
               00:00:00
             </p>
-            <p className="mt-1 text-sm text-content-muted">
+            <p className="mt-1.5 text-sm font-medium text-content-muted">
               {activeFast.planLabel}
             </p>
           </ProgressRing>
@@ -98,37 +102,39 @@ export function FastingTimer() {
   }
 
   return (
-    <div className="flex min-h-full flex-col gap-5 px-4 pt-8">
+    <div className="safe-top flex min-h-full flex-col gap-5 px-4 pt-8">
       <div className="flex items-baseline justify-between">
-        <h1 className="text-2xl font-bold text-content">Heula</h1>
+        <h1 className="text-[34px] font-bold leading-tight tracking-tight text-content">
+          Heula
+        </h1>
         <span className="text-sm font-medium text-content-muted">
           {copy.timer.planLabel}: {activeFast.planLabel}
         </span>
       </div>
 
       <ProgressRing progress={t.progress}>
-        <p className="font-mono text-4xl font-bold tabular-nums text-content">
+        <p className="font-mono text-5xl font-bold tracking-tight tabular-nums text-content">
           {formatHMS(t.elapsedMs)}
         </p>
-        <p className="mt-1 text-sm text-content-muted">
+        <p className="mt-1.5 text-sm font-medium text-content-muted">
           {copy.timer.elapsedLabel}
         </p>
       </ProgressRing>
 
       <div className="grid grid-cols-2 gap-3">
         <Card className="text-center">
-          <p className="text-xs text-content-muted">
+          <p className="text-xs font-medium text-content-muted">
             {copy.timer.targetEndLabel}
           </p>
-          <p className="mt-1 text-lg font-semibold text-content">
+          <p className="mt-1 text-xl font-semibold tabular-nums text-content">
             {formatClock(t.targetEndMs)}
           </p>
         </Card>
         <Card className="text-center">
-          <p className="text-xs text-content-muted">
+          <p className="text-xs font-medium text-content-muted">
             {t.isComplete ? copy.timer.overfastLabel : copy.timer.remainingLabel}
           </p>
-          <p className="mt-1 font-mono text-lg font-semibold tabular-nums text-content">
+          <p className="mt-1 font-mono text-xl font-semibold tabular-nums text-content">
             {t.isComplete
               ? formatHMS(t.elapsedMs - t.targetMs)
               : formatHMS(t.remainingMs)}
@@ -140,7 +146,7 @@ export function FastingTimer() {
 
       {showCompletePrompt && (
         <Card className="border-brand bg-surface-2">
-          <p className="text-sm font-semibold text-content">
+          <p className="text-base font-semibold text-content">
             {copy.timer.completeTitle}
           </p>
           <div className="mt-3 flex gap-2">

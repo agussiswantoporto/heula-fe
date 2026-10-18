@@ -34,7 +34,7 @@ export function DailyGoalPicker() {
         </p>
       </div>
 
-      <div className="flex items-center justify-between rounded-card border border-border bg-surface px-4 py-3">
+      <div className="flex items-center justify-between rounded-control border border-border bg-surface px-4 py-3">
         <button
           type="button"
           aria-label={copy.settings.dailyGoalTitle}

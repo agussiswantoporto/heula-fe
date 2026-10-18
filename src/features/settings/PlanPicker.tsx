@@ -87,7 +87,7 @@ export function PlanPicker() {
               aria-pressed={active}
               onClick={() => handleSelect(id)}
               className={cn(
-                "flex items-center justify-between gap-3 rounded-card border px-4 py-3 text-left transition-colors",
+                "flex items-center justify-between gap-3 rounded-control border px-4 py-3 text-left transition-colors",
                 active ? "border-brand bg-surface-2" : "border-border bg-surface",
               )}
             >
@@ -123,7 +123,7 @@ export function PlanPicker() {
             max={CUSTOM_MAX}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            className="min-h-12 rounded-card border border-border bg-surface px-4 text-base text-content"
+            className="min-h-12 rounded-control border border-border bg-surface px-4 text-base text-content"
           />
         </label>
         {!isValidCustom && draft.trim() !== "" && (

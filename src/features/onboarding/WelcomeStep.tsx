@@ -18,14 +18,14 @@ export function WelcomeStep({ onNext }: WelcomeStepProps) {
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
-        <span className="flex h-20 w-20 items-center justify-center rounded-[1.5rem] bg-brand text-brand-fg">
+        <span className="flex h-20 w-20 items-center justify-center rounded-card bg-brand text-brand-fg">
           <Icon name="goal" size={38} />
         </span>
         <div>
-          <h1 className="text-2xl font-bold text-content">
+          <h1 className="text-[28px] font-bold leading-tight tracking-tight text-content">
             {copy.onboarding.welcomeTitle}
           </h1>
-          <p className="mx-auto mt-3 max-w-xs text-sm text-content-muted">
+          <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-content-muted">
             {copy.onboarding.welcomeBody}
           </p>
         </div>

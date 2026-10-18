@@ -64,7 +64,7 @@ export function StartTimeSheet({
             value={value}
             max={toLocalInputValue(Date.now())}
             onChange={(e) => setValue(e.target.value)}
-            className="min-h-12 rounded-card border border-border bg-surface-2 px-4 text-base text-content"
+            className="min-h-12 rounded-control border border-border bg-surface-2 px-4 text-base text-content"
           />
         </label>
 

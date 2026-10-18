@@ -45,7 +45,7 @@ function Choice({
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "flex flex-1 items-center justify-center gap-2 rounded-card border px-4 py-4 text-sm font-medium transition-colors",
+        "flex flex-1 items-center justify-center gap-2 rounded-control border px-4 py-4 text-sm font-medium transition-colors",
         active
           ? "border-brand bg-surface-2 text-content"
           : "border-border bg-surface text-content-muted",
@@ -70,7 +70,7 @@ export function ExerciseStep({
 
   return (
     <div className="flex flex-1 flex-col">
-      <h1 className="text-xl font-bold text-content">
+      <h1 className="text-2xl font-bold tracking-tight text-content">
         {copy.onboarding.exerciseQuestion}
       </h1>
 

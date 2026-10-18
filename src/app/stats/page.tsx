@@ -11,9 +11,11 @@ import { copy } from "@/lib/copy";
 
 export default function StatsPage() {
   return (
-    <div className="px-4 pt-8">
-      <h1 className="text-2xl font-bold text-content">{copy.stats.title}</h1>
-      <div className="mt-5">
+    <div className="safe-top px-4 pt-8">
+      <h1 className="text-[34px] font-bold leading-tight tracking-tight text-content">
+        {copy.stats.title}
+      </h1>
+      <div className="mt-6">
         <StatsOverview />
       </div>
     </div>

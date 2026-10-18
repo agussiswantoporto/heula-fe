@@ -54,10 +54,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="px-4 pt-8">
-      <h1 className="text-2xl font-bold text-content">Profil</h1>
+    <div className="safe-top px-4 pt-8">
+      <h1 className="text-[34px] font-bold leading-tight tracking-tight text-content">
+        Profil
+      </h1>
 
-      <div className="mt-5 flex flex-col gap-4">
+      <div className="mt-6 flex flex-col gap-4">
         <Card>
           <PlanPicker />
         </Card>
