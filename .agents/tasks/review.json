@@ -1,4 +1,24 @@
 {
   "verdict": "APPROVED",
-  "findings": []
+  "findings": [
+    {
+      "label": "SW-first silent drop",
+      "severity": "non-blocking",
+      "confidence": "confirmed",
+      "detail": "schedule() returns { ok: true } as soon as the heula/schedule-reminder message is posted and does not fall back to the in-page timer if SW delivery fails (no controller and navigator.serviceWorker.ready rejects). Acceptable under the stated best-effort contract; a lost SW message is a silently lost reminder. Consider an in-page fallback arm when the post cannot be confirmed."
+    },
+    {
+      "label": "Unwired start reminder",
+      "severity": "non-blocking",
+      "confidence": "confirmed",
+      "detail": "scheduleStartReminder is exported but never called; the startEnabled toggle persists a preference that arms no reminder. Pre-existing and intentionally kept to preserve the stable exported surface required by the task. Either wire it to a start-time schedule or signal in the UI that it is not yet active."
+    },
+    {
+      "label": "Dead copy key",
+      "severity": "non-blocking",
+      "confidence": "confirmed",
+      "detail": "copy.settings.reminderUnsupported is now unused; the UI reads reminderUnsupportedHint, an identical string. Remove the stale key."
+    }
+  ],
+  "reviewDoc": "/private/var/www/html/heula/.agents/tasks/review.md"
 }

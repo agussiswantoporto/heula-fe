@@ -1,0 +1,7 @@
+{
+  "task_id": "task-ios-styling",
+  "task_description": "Presentation-only iOS visual polish of the existing, building Heula Next.js PWA: refresh design tokens in globals.css and shared UI primitives, redesign the bottom tab bar into a floating iOS pill (with AppShell + ToastProvider spacing follow-through), and sweep all screens/features for a consistent iOS feel in both light and dark. No version, routing, data-flow, store, Dexie, or copy-string changes. Zero emoji. Icons only via the existing Icon.tsx choke-point (no new IconKeys).",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}

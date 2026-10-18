@@ -1,0 +1,5 @@
+{
+  "verdict": "APPROVED",
+  "summary": "Genuine iOS polish delivered presentation-only: refreshed tokens, a floating accessible pill tab bar with layoutId highlight, correct shell/toast clearance, and a consistent light/dark sweep; all hard constraints hold with npm test (154) and npm run build green.",
+  "findings": []
+}
