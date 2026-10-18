@@ -172,21 +172,75 @@ export const copy = {
     editStartSave: "Simpan",
   },
 
+  /** History screen copy. */
+  history: {
+    title: "Riwayat",
+    completedBadge: "Target tercapai",
+    stoppedBadge: "Disudahi lebih awal",
+    durationLabel: "Durasi",
+    todayLabel: "Hari ini",
+    yesterdayLabel: "Kemarin",
+    deleteConfirmTitle: "Hapus catatan ini?",
+    deleteConfirmBody:
+      "Catatan puasa ini bakal dihapus permanen dan gak bisa dibalikin.",
+    deleteConfirmYes: "Ya, hapus",
+    deleteConfirmNo: "Batal",
+  },
+
+  /** Stats screen copy. */
+  stats: {
+    title: "Statistik",
+    goalLabel: "Tujuan kamu",
+    currentStreak: "Streak sekarang",
+    longestStreak: "Streak terpanjang",
+    totalFasts: "Total puasa",
+    totalHours: "Total jam",
+    averageLength: "Rata-rata durasi",
+    weeklyTitle: "7 hari terakhir",
+    dayUnit: "hari",
+    fastUnit: "kali",
+    hourUnit: "jam",
+  },
+
   /** Settings / profile copy. */
   settings: {
     planTitle: "Metode puasa",
+    planSubtitle: "Pilih metode puasa yang aktif sekarang.",
+    customTitle: "Jam puasa custom",
+    customHint: "Atur antara 8 sampai 23 jam.",
+    customInvalid: "Isi antara 8 sampai 23 jam ya.",
+    customApply: "Simpan jam custom",
     goalTitle: "Tujuan kamu",
     dailyGoalTitle: "Target harian",
+    dailyGoalHint: "Jam puasa yang kamu incar tiap hari.",
     reminderTitle: "Pengingat",
+    reminderSubtitle: "Pengingat ini best-effort dan jalan selama tab kebuka.",
     reminderEnd: "Ingatkan saat buka puasa",
     reminderStart: "Ingatkan saat mulai puasa",
+    reminderDenied: "Notifikasi lagi dimatiin. Kamu masih bisa pakai timer kok.",
+    reminderUnsupported:
+      "Browser kamu belum dukung notifikasi, tapi timer tetap jalan kok.",
+    reminderEnable: "Izinkan notifikasi",
     themeTitle: "Tampilan",
     themeSystem: "Ikut sistem",
     themeLight: "Terang",
     themeDark: "Gelap",
     reprofiling: "Atur ulang profil",
+    reprofilingHint: "Jawab ulang pertanyaan buat dapet rekomendasi baru.",
     reset: "Reset semua data",
+    resetHint: "Hapus semua catatan dan pengaturan, balik ke awal.",
+    resetConfirmTitle: "Reset semua data?",
+    resetConfirmBody:
+      "Semua catatan puasa dan pengaturan bakal dihapus. Aksi ini gak bisa dibalikin.",
+    resetConfirmYes: "Ya, reset",
+    resetConfirmNo: "Batal",
     about: "Tentang Heula",
+    aboutVersion: "Versi",
+    aboutBody:
+      "Heula teman puasa kamu. Semua data disimpan di HP kamu sendiri dan jalan offline.",
     goalCardLabel: "Tujuan kamu",
+    fiveTwoTitle: "5:2 (info aja)",
+    fiveTwoDesc:
+      "Metode 5:2 puasa 2 hari seminggu, belum ada di timer. Jadiin info dulu ya.",
   },
 } as const;

@@ -1,0 +1,110 @@
+"use client";
+
+/**
+ * StatsOverview (design Section 10).
+ *
+ * Live-queries every session and derives streaks/totals/average via the pure
+ * `src/lib/stats` functions, then renders them as stat cards plus the weekly
+ * bar chart. It also surfaces the profiling goal read straight from the Zustand
+ * store and mapped through GOAL_LABELS, with a neutral "Belum ada tujuan"
+ * placeholder when profiling is null (design Section 10, AC13).
+ *
+ * The stats derivations are pure over FastingSessionRecord[]; `now` is injected
+ * here from the client clock. Client-only (imports db + dexie-react-hooks).
+ */
+import { useLiveQuery } from "dexie-react-hooks";
+import { Card } from "@/components/ui/Card";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { Icon } from "@/components/ui/Icon";
+import { Spinner } from "@/components/ui/Spinner";
+import { copy, GOAL_LABELS } from "@/lib/copy";
+import { streaks, totals, weekly } from "@/lib/stats";
+import { db } from "@/db/db";
+import { useAppStore } from "@/store/useAppStore";
+import { WeeklyBarChart } from "@/features/stats/WeeklyBarChart";
+
+interface StatCardProps {
+  label: string;
+  value: string;
+}
+
+function StatCard({ label, value }: StatCardProps) {
+  return (
+    <Card className="text-center">
+      <p className="text-xs text-content-muted">{label}</p>
+      <p className="mt-1 text-xl font-bold tabular-nums text-content">{value}</p>
+    </Card>
+  );
+}
+
+export function StatsOverview() {
+  const profiling = useAppStore((s) => s.profiling);
+  const list = useLiveQuery(
+    () => db.sessions.orderBy("startMs").reverse().toArray(),
+    [],
+  );
+
+  const goalLabel = profiling
+    ? GOAL_LABELS[profiling.goal]
+    : copy.states.noGoal;
+
+  if (list === undefined) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Spinner size={28} label={copy.states.loading} />
+      </div>
+    );
+  }
+
+  const now = Date.now();
+  const t = totals(list);
+  const s = streaks(list, now);
+  const buckets = weekly(list, now);
+
+  return (
+    <div className="flex flex-col gap-5">
+      <Card className="flex items-center gap-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-brand-soft text-brand">
+          <Icon name="goal" size={22} />
+        </span>
+        <div className="min-w-0">
+          <p className="text-xs text-content-muted">{copy.stats.goalLabel}</p>
+          <p className="text-sm font-semibold text-content">{goalLabel}</p>
+        </div>
+      </Card>
+
+      {list.length === 0 ? (
+        <EmptyState icon="tab_stats" title={copy.states.statsEmpty} />
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-3">
+            <StatCard
+              label={copy.stats.currentStreak}
+              value={`${s.current} ${copy.stats.dayUnit}`}
+            />
+            <StatCard
+              label={copy.stats.longestStreak}
+              value={`${s.longest} ${copy.stats.dayUnit}`}
+            />
+            <StatCard
+              label={copy.stats.totalFasts}
+              value={`${t.totalFasts} ${copy.stats.fastUnit}`}
+            />
+            <StatCard
+              label={copy.stats.totalHours}
+              value={`${Math.round(t.totalHours)} ${copy.stats.hourUnit}`}
+            />
+            <StatCard
+              label={copy.stats.averageLength}
+              value={`${t.averageHours.toFixed(1)} ${copy.stats.hourUnit}`}
+            />
+          </div>
+
+          <Card>
+            <WeeklyBarChart buckets={buckets} />
+          </Card>
+        </>
+      )}
+    </div>
+  );
+}

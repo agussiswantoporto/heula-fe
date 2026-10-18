@@ -1,15 +1,21 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = { title: "Riwayat" };
+/**
+ * History route (design Section 3).
+ *
+ * Renders the live, grouped-by-day session list. The page is a thin client
+ * host; the HistoryList owns the Dexie live query and empty/loading states.
+ */
+import { HistoryList } from "@/features/history/HistoryList";
+import { copy } from "@/lib/copy";
 
-/** History placeholder; the live-query list arrives in a later FEAT. */
 export default function HistoryPage() {
   return (
     <div className="px-4 pt-8">
-      <h1 className="text-2xl font-bold text-content">Riwayat</h1>
-      <p className="mt-2 text-sm text-content-muted">
-        Catatan puasa kamu bakal tampil di sini.
-      </p>
+      <h1 className="text-2xl font-bold text-content">{copy.history.title}</h1>
+      <div className="mt-5">
+        <HistoryList />
+      </div>
     </div>
   );
 }
