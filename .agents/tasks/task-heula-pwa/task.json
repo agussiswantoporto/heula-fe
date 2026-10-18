@@ -1,0 +1,7 @@
+{
+  "task_id": "task-heula-pwa",
+  "task_description": "Build the Heula intermittent-fasting PWA (Next.js 15 App Router + React 19 + TS strict + Tailwind v4 + Serwist + Zustand + Dexie + motion + date-fns + react-icons/io5) from the APPROVED design in .agents/tasks/{requirements,design,design-review}.md. iOS-style mobile PWA with onboarding profiling + recommendation engine, live fasting timer with stages, history, stats, profile/settings, offline support. Indonesian Gojek voice. ZERO EMOJI anywhere; icons only from react-icons/io5 (no lucide). Resolve the two open MEDIUM design-review findings in code. Build directly in the workspace (no worktree).",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004", "FEAT-005", "FEAT-006"],
+  "blocked_reason": null
+}
