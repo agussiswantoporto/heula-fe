@@ -1,0 +1,7 @@
+{
+  "task_id": "task-bmi-profiling",
+  "task_description": "Add a mandatory BMI profiling step to the existing Heula onboarding with an attractive live visual presentation, feed BMI into the pure IF recommendation engine while preserving all safety invariants, and surface a guarded BMI card on Stats. Feature addition to an existing building Next.js 15 + React 19 + TS strict + Tailwind v4 PWA. Edit in place; no worktree.",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}
