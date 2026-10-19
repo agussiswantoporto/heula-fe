@@ -12,6 +12,7 @@
  */
 import type { MethodId, ProfilingAnswers, Recommendation } from "@/types";
 import { copy } from "@/lib/copy";
+import { bmiCategory, computeBmi, type BmiCategory } from "@/lib/bmi";
 
 type NonHeavyState = "none" | "light" | "moderate";
 
@@ -147,6 +148,78 @@ export function canOfferAggressive(answers: ProfilingAnswers): boolean {
   return canOfferAggressive;
 }
 
+/** Methods considered "stricter than 14:10" for the underweight guard. */
+const NON_GENTLE: MethodId[] = ["16:8", "18:6", "20:4", "omad"];
+/** Methods underweight users must never be nudged toward in alternatives. */
+const UNDERWEIGHT_FORBIDDEN: MethodId[] = ["18:6", "20:4", "omad"];
+
+/**
+ * BMI post-process (FEAT-002).
+ *
+ * Chosen approach: BMI is a PURE POST-PROCESS that only ever SHARPENS the
+ * framing or SOFTENS the primary method — it never overrides the safety model.
+ * Three hard rules make this safe:
+ *   1. The R1 heavy-exercise branch returns in recommendMethod BEFORE this
+ *      function runs, so a heavy exerciser is NEVER BMI-adjusted (heavy always
+ *      wins: 14:10 + non-null warning for any goal and any BMI).
+ *   2. canOfferAggressive stays the SOLE aggressive gatekeeper. This function
+ *      never adds 20:4/omad and never widens eligibility; it only reorders
+ *      methods already present in `base.alternatives`.
+ *   3. "normal" (the safe default, including NaN/invalid BMI) returns base
+ *      unchanged, so a transient bad value never triggers a strict adjustment.
+ *
+ * Per-category behaviour:
+ *   underweight -> soften the primary to 14:10 if it is anything stricter,
+ *     drop 18:6/20:4/omad from alternatives (keep 16:8 only), and always carry
+ *     a caring note in `warning` plus a caring prefix in `rationale`.
+ *   normal      -> return base unchanged.
+ *   overweight/obese -> ONLY when goal === "weight_loss" AND
+ *     canOfferAggressive(answers) is already true, reorder alternatives so 18:6
+ *     is more prominent (no new aggressive method added) and append a
+ *     firmer-but-safe note to rationale; the primary stays the gentle default
+ *     (never auto-jumps to 20:4/omad).
+ *   all other goals/states -> return base unchanged.
+ */
+export function applyBmiAdjustment(
+  base: Recommendation,
+  category: BmiCategory,
+  answers: ProfilingAnswers,
+): Recommendation {
+  switch (category) {
+    case "underweight": {
+      const method: MethodId = NON_GENTLE.includes(base.method)
+        ? "14:10"
+        : base.method;
+      const alternatives = base.alternatives.filter(
+        (m) => !UNDERWEIGHT_FORBIDDEN.includes(m),
+      );
+      // Caring note always present via warning so it surfaces regardless of goal.
+      const warning = copy.recommendation.underweightNote;
+      const rationale = `${copy.recommendation.underweightRationale} ${base.rationale}`;
+      return { method, rationale, warning, alternatives };
+    }
+    case "overweight":
+    case "obese": {
+      if (answers.goal !== "weight_loss" || !canOfferAggressive(answers)) {
+        return base;
+      }
+      // Reorder only: pull an already-present 18:6 to the front; never add it.
+      const alternatives: MethodId[] = base.alternatives.includes("18:6")
+        ? ["18:6", ...base.alternatives.filter((m) => m !== "18:6")]
+        : [...base.alternatives];
+      const rationale = `${base.rationale} ${copy.recommendation.overweightNote}`;
+      return {
+        method: base.method,
+        rationale,
+        warning: base.warning,
+        alternatives,
+      };
+    }
+    case "normal":
+      return base;
+  }
+}
+
 /**
  * Recommend an IF method for the given profiling answers.
  *
@@ -156,25 +229,37 @@ export function canOfferAggressive(answers: ProfilingAnswers): boolean {
  */
 export function recommendMethod(answers: ProfilingAnswers): Recommendation {
   // R1: heavy exercise, any goal -> gentle 14:10 + mandatory warning.
+  // Returns BEFORE any BMI logic, so heavy exercisers are never BMI-adjusted.
   if (answers.exercises && answers.intensity === "heavy") return buildHeavy();
 
   const ex = exerciseState(answers); // "none" | "light" | "moderate"
+  let base: Recommendation;
   switch (answers.goal) {
     case "weight_loss":
-      return buildWeightLoss(ex);
+      base = buildWeightLoss(ex);
+      break;
     case "metabolic":
-      return buildMetabolic(ex);
+      base = buildMetabolic(ex);
+      break;
     case "focus":
-      return buildFocus(ex);
+      base = buildFocus(ex);
+      break;
     case "maintain":
-      return buildMaintain(ex);
+      base = buildMaintain(ex);
+      break;
     case "general":
-      return buildGeneral(ex);
+      base = buildGeneral(ex);
+      break;
     default: {
       // Compile-time exhaustiveness: adding a Goal member makes this a type error.
       /* v8 ignore next 2 */
       const _exhaustive: never = answers.goal;
-      return GENTLE_16_8;
+      base = GENTLE_16_8;
     }
   }
+
+  // BMI is a pure post-process layer applied AFTER the switch(goal) resolves
+  // base. "normal" (and invalid/NaN BMI) returns base unchanged.
+  const category = bmiCategory(computeBmi(answers.heightCm, answers.weightKg));
+  return applyBmiAdjustment(base, category, answers);
 }

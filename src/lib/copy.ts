@@ -35,6 +35,16 @@ export const copy = {
     heavyRationale:
       "Latihanmu berat, jadi puasa 14:10 cukup biar tenaga dan pemulihanmu tetap kejaga.",
 
+    // BMI post-process notes (FEAT-002). Underweight is delivered via the
+    // warning field so it always surfaces; overweight/obese is appended to
+    // rationale as firmer-but-safe framing.
+    underweightNote:
+      "Berat badanmu masih di bawah ideal, jadi puasa yang ketat kita tahan dulu ya. Fokus dulu ke makan cukup dan bergizi, baru pelan-pelan jalanin puasa yang santai.",
+    underweightRationale:
+      "Karena berat badanmu masih kurang, kita mulai dari yang paling santai dulu biar asupanmu tetap aman.",
+    overweightNote:
+      "Berat badanmu lagi di atas ideal, jadi 18:6 bisa jadi langkah berikutnya yang lebih mantap kalau kamu udah nyaman. Tetap pelan-pelan dan jangan dipaksa ya.",
+
     weightLossNone:
       "Buat turun berat badan tanpa olahraga, mulai dari 16:8 dulu biar nyaman. Kalau udah kebiasa, naik ke 18:6 pelan-pelan.",
     weightLossLight:

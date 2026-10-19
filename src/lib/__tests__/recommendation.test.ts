@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  applyBmiAdjustment,
   canOfferAggressive,
   exerciseState,
   recommendMethod,
@@ -282,6 +283,135 @@ describe("recommendMethod — degenerate-input equivalence (Finding 1/2)", () =>
       expect(degenerate).toEqual(none);
     });
   }
+});
+
+// BMI fixtures (170cm tall for all), Asia-Pacific thresholds:
+//   45kg => ~15.6 => underweight
+//   65kg => ~22.5 => normal
+//   68kg => ~23.5 => overweight
+//   80kg => ~27.7 => obese
+function bmiAnswers(
+  goal: Goal,
+  exercises: boolean,
+  intensity: Intensity | null,
+  weightKg: number,
+): ProfilingAnswers {
+  return { goal, exercises, intensity, heightCm: 170, weightKg };
+}
+
+const UNDERWEIGHT_PRIMARY_FORBIDDEN: MethodId[] = ["18:6", "20:4", "omad"];
+
+describe("recommendMethod — BMI post-process (FEAT-002)", () => {
+  it("(a) underweight + metabolic/none (would be 18:6) never primes 18:6/20:4/omad and carries the caring note", () => {
+    const rec = recommendMethod(bmiAnswers("metabolic", false, null, 45));
+    // Normal-BMI metabolic/none is 18:6; underweight must soften it.
+    expect(UNDERWEIGHT_PRIMARY_FORBIDDEN).not.toContain(rec.method);
+    expect(["14:10", "16:8"]).toContain(rec.method);
+    expect(rec.warning).not.toBeNull();
+    expect((rec.warning as string).length).toBeGreaterThan(0);
+    expect(rec.rationale.length).toBeGreaterThan(0);
+    // Forbidden methods are stripped from alternatives too.
+    for (const m of UNDERWEIGHT_PRIMARY_FORBIDDEN) {
+      expect(rec.alternatives).not.toContain(m);
+    }
+  });
+
+  it("(a) underweight across every goal never primes 18:6/20:4/omad and always warns", () => {
+    for (const goal of GOALS) {
+      const rec = recommendMethod(bmiAnswers(goal, false, null, 45));
+      expect(UNDERWEIGHT_PRIMARY_FORBIDDEN).not.toContain(rec.method);
+      expect(rec.warning).not.toBeNull();
+      expect((rec.warning as string).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("(b) heavy exerciser stays 14:10 + non-null warning for underweight AND obese BMI", () => {
+    for (const goal of GOALS) {
+      const underweight = recommendMethod(bmiAnswers(goal, true, "heavy", 45));
+      expect(underweight.method).toBe("14:10");
+      expect(underweight.warning).not.toBeNull();
+      expect(underweight.alternatives).toEqual(["16:8"]);
+
+      const obese = recommendMethod(bmiAnswers(goal, true, "heavy", 80));
+      expect(obese.method).toBe("14:10");
+      expect(obese.warning).not.toBeNull();
+      expect(obese.alternatives).toEqual(["16:8"]);
+    }
+  });
+
+  it("(c) canOfferAggressive stays false for every non-weight-loss goal regardless of BMI", () => {
+    for (const goal of GOALS) {
+      if (goal === "weight_loss") continue;
+      for (const weightKg of [45, 68, 80]) {
+        expect(canOfferAggressive(bmiAnswers(goal, false, null, weightKg))).toBe(
+          false,
+        );
+      }
+    }
+  });
+
+  it("(c) canOfferAggressive stays false for moderate regardless of BMI", () => {
+    for (const weightKg of [45, 68, 80]) {
+      expect(
+        canOfferAggressive(bmiAnswers("weight_loss", true, "moderate", weightKg)),
+      ).toBe(false);
+    }
+  });
+
+  it("(c) heavy inputs never surface aggressive methods regardless of BMI (R1 guard wins)", () => {
+    // exerciseState maps "heavy" to "none", so canOfferAggressive would read true
+    // at the predicate level; the R1 guard in recommendMethod returns BEFORE any
+    // aggressive offer, so no 20:4/omad ever appears for a heavy exerciser.
+    for (const weightKg of [45, 68, 80]) {
+      const rec = recommendMethod(bmiAnswers("weight_loss", true, "heavy", weightKg));
+      expect(rec.method).toBe("14:10");
+      expect(AGGRESSIVE.some((m) => rec.alternatives.includes(m))).toBe(false);
+    }
+  });
+
+  it("(d) overweight/obese + weight_loss + none/light never primes 20:4/omad and keeps 18:6 in alternatives", () => {
+    for (const weightKg of [68, 80]) {
+      for (const [exercises, intensity] of [
+        [false, null],
+        [true, "light"],
+      ] as const) {
+        const rec = recommendMethod(
+          bmiAnswers("weight_loss", exercises, intensity, weightKg),
+        );
+        expect(AGGRESSIVE).not.toContain(rec.method);
+        expect(rec.method).toBe("16:8");
+        expect(rec.alternatives).toContain("18:6");
+        // 18:6 is reordered to the front (more prominent) without adding aggression.
+        expect(rec.alternatives[0]).toBe("18:6");
+        expect(rec.rationale.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("overweight/obese + non-weight-loss goal returns base unchanged", () => {
+    const normal = recommendMethod(bmiAnswers("metabolic", false, null, 65));
+    const overweight = recommendMethod(bmiAnswers("metabolic", false, null, 68));
+    expect(overweight).toEqual(normal);
+  });
+});
+
+describe("applyBmiAdjustment — direct unit tests", () => {
+  it("normal returns the exact same base object", () => {
+    const base = recommendMethod(bmiAnswers("weight_loss", false, null, 65));
+    expect(applyBmiAdjustment(base, "normal", bmiAnswers("weight_loss", false, null, 65))).toBe(
+      base,
+    );
+  });
+
+  it("underweight never adds a new aggressive method", () => {
+    const base = recommendMethod(bmiAnswers("weight_loss", false, null, 65));
+    const adjusted = applyBmiAdjustment(
+      base,
+      "underweight",
+      bmiAnswers("weight_loss", false, null, 45),
+    );
+    expect(AGGRESSIVE.some((m) => adjusted.alternatives.includes(m))).toBe(false);
+  });
 });
 
 describe("exerciseState classifier", () => {
