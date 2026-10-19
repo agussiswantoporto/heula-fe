@@ -6,7 +6,7 @@
  * keeps wording consistent across the recommendation engine, stages, toasts,
  * notifications, onboarding, and settings.
  */
-import type { Goal, MethodId } from "@/types";
+import type { Goal, MethodId, Mood } from "@/types";
 
 /** Goal -> Indonesian display label (design Section 10). */
 export const GOAL_LABELS: Record<Goal, string> = {
@@ -15,6 +15,14 @@ export const GOAL_LABELS: Record<Goal, string> = {
   focus: "Fokus & produktivitas",
   maintain: "Maintain berat badan",
   general: "Coba-coba - umum",
+};
+
+/** Mood -> Indonesian display label (FEAT-004), Gojek voice, no emoji. */
+export const MOOD_LABELS: Record<Mood, string> = {
+  energik: "Energik",
+  biasa: "Biasa aja",
+  lemes: "Lemes",
+  lapar: "Lapar",
 };
 
 export const copy = {
@@ -162,6 +170,25 @@ export const copy = {
     easeDown: (from: string, to: string) =>
       `Sering berhenti sebelum target di ${from}? Santai, turunin dulu ke ${to} biar lebih kebawa.`,
     streak: "Streak kamu lagi jalan, mantap. Jaga ritmenya ya, kamu keren.",
+  },
+
+  /**
+   * Mood + note capture copy (FEAT-004). Casual Gojek voice, emoji-free. Used
+   * by the skippable sheet shown after a fast is saved and when editing a
+   * History row, plus the small mood indicator in History.
+   */
+  mood: {
+    sheetTitle: "Gimana rasanya puasa tadi?",
+    sheetIntro: "Catat sebentar yuk, biar makin kenal pola puasamu. Boleh dilewatin kok.",
+    moodLabel: "Perasaan kamu",
+    noteLabel: "Catatan (opsional)",
+    notePlaceholder: "Misalnya: tidur cukup, jadi kuat seharian.",
+    save: "Simpan",
+    skip: "Lewati",
+    indicatorAria: "Perasaan saat puasa ini",
+    editAria: "Ubah perasaan dan catatan puasa ini",
+    summaryTitle: "Rasa puasamu",
+    summaryEmpty: "Belum ada catatan rasa. Isi pas kelar puasa yuk.",
   },
 
   /** Fasting stage descriptions (design Section 7.2), no emoji. */

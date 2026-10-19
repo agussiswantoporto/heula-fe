@@ -18,20 +18,21 @@ import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Icon } from "@/components/ui/Icon";
 import { Spinner } from "@/components/ui/Spinner";
-import { copy, GOAL_LABELS } from "@/lib/copy";
+import { copy, GOAL_LABELS, MOOD_LABELS } from "@/lib/copy";
 import {
   bmiCategory,
   computeBmi,
   isValidBmiInput,
   type BmiCategory,
 } from "@/lib/bmi";
+import { moodBreakdown } from "@/lib/mood";
 import { streaks, totals, weekly } from "@/lib/stats";
 import { deltas, latest } from "@/lib/weight";
 import { db } from "@/db/db";
 import { useAppStore } from "@/store/useAppStore";
 import { WeeklyBarChart } from "@/features/stats/WeeklyBarChart";
 import { AdaptiveCard } from "@/features/adaptive/AdaptiveCard";
-import type { WeightRecord } from "@/types";
+import type { IconKey, Mood, WeightRecord } from "@/types";
 
 const BMI_TEXT: Record<BmiCategory, string> = {
   underweight: copy.stats.bmiUnderweight,
@@ -39,6 +40,14 @@ const BMI_TEXT: Record<BmiCategory, string> = {
   overweight: copy.stats.bmiOverweight,
   obese: copy.stats.bmiObese,
 };
+
+/** Mood -> Icon choke-point key, ordered best -> hardest for the summary. */
+const MOOD_SUMMARY: { value: Mood; icon: IconKey }[] = [
+  { value: "energik", icon: "mood_energik" },
+  { value: "biasa", icon: "mood_biasa" },
+  { value: "lemes", icon: "mood_lemes" },
+  { value: "lapar", icon: "mood_lapar" },
+];
 
 interface StatCardProps {
   label: string;
@@ -102,6 +111,40 @@ function WeightSummaryCard({ list }: { list: WeightRecord[] | undefined }) {
   );
 }
 
+/**
+ * Compact "Rasa puasamu" summary showing how many sessions fell under each mood
+ * (via the pure moodBreakdown). Rows with undefined mood are ignored by the lib,
+ * so the card renders only when at least one session has a mood recorded.
+ */
+function MoodSummaryCard({ breakdown }: { breakdown: Record<Mood, number> }) {
+  const total = MOOD_SUMMARY.reduce((sum, m) => sum + breakdown[m.value], 0);
+  if (total === 0) return null;
+
+  return (
+    <Card>
+      <p className="text-xs text-content-muted">{copy.mood.summaryTitle}</p>
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        {MOOD_SUMMARY.map((m) => (
+          <div
+            key={m.value}
+            className="flex items-center gap-2 text-sm text-content"
+          >
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-pill bg-surface-2 text-content-muted">
+              <Icon name={m.icon} size={18} />
+            </span>
+            <span className="min-w-0 flex-1 truncate">
+              {MOOD_LABELS[m.value]}
+            </span>
+            <span className="font-semibold tabular-nums">
+              {breakdown[m.value]}
+            </span>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
 export function StatsOverview() {
   const profiling = useAppStore((s) => s.profiling);
   const list = useLiveQuery(
@@ -140,6 +183,7 @@ export function StatsOverview() {
   const t = totals(list);
   const s = streaks(list, now);
   const buckets = weekly(list, now);
+  const moods = moodBreakdown(list);
 
   return (
     <div className="flex flex-col gap-5">
@@ -204,6 +248,8 @@ export function StatsOverview() {
           <Card>
             <WeeklyBarChart buckets={buckets} />
           </Card>
+
+          <MoodSummaryCard breakdown={moods} />
         </>
       )}
     </div>

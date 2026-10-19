@@ -25,6 +25,7 @@ import { computeTimer, formatHMS } from "@/lib/timer";
 import { formatClock } from "@/lib/time";
 import { useAppStore } from "@/store/useAppStore";
 import { AdaptiveCard } from "@/features/adaptive/AdaptiveCard";
+import { MoodNoteSheet } from "@/features/history/MoodNoteSheet";
 import { ProgressRing } from "@/features/timer/ProgressRing";
 import { StageIndicator } from "@/features/timer/StageIndicator";
 import { TimerControls } from "@/features/timer/TimerControls";
@@ -38,6 +39,9 @@ export function FastingTimer() {
   const nowMs = useTimer(activeFast !== null);
   // true after the user chooses "Lanjut" on the complete prompt (keep counting).
   const [dismissedComplete, setDismissedComplete] = useState(false);
+  // Id of the just-saved session to attach an optional mood/note to; null hides
+  // the skippable capture sheet.
+  const [moodSessionId, setMoodSessionId] = useState<number | null>(null);
 
   // Idle: no active fast. Stable render that matches SSR.
   if (!activeFast) {
@@ -96,10 +100,12 @@ export function FastingTimer() {
   const showCompletePrompt = t.isComplete && !dismissedComplete;
 
   async function handleStop() {
-    await stopFast();
+    const id = await stopFast();
     clearScheduled();
     setDismissedComplete(false);
     show(copy.toasts.fastCompleted, "success");
+    // Offer the skippable mood/note capture for the just-saved row.
+    if (id !== null) setMoodSessionId(id);
   }
 
   return (
@@ -170,6 +176,12 @@ export function FastingTimer() {
       <div className="mt-auto pb-4">
         <TimerControls activeFast={activeFast} />
       </div>
+
+      <MoodNoteSheet
+        open={moodSessionId !== null}
+        sessionId={moodSessionId}
+        onClose={() => setMoodSessionId(null)}
+      />
     </div>
   );
 }

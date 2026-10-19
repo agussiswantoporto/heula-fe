@@ -22,6 +22,7 @@ import {
 } from "@/lib/notifications";
 import { useAppStore } from "@/store/useAppStore";
 import { StartTimeSheet } from "@/features/timer/StartTimeSheet";
+import { MoodNoteSheet } from "@/features/history/MoodNoteSheet";
 import type { ActiveFast } from "@/store/types";
 
 const MS_PER_HOUR = 3_600_000;
@@ -39,6 +40,9 @@ export function TimerControls({ activeFast }: TimerControlsProps) {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
+  // Id of the just-saved session to attach an optional mood/note to; null hides
+  // the skippable capture sheet.
+  const [moodSessionId, setMoodSessionId] = useState<number | null>(null);
 
   function handleStart() {
     startFast();
@@ -55,9 +59,11 @@ export function TimerControls({ activeFast }: TimerControlsProps) {
 
   async function handleStopConfirm() {
     setConfirmOpen(false);
-    await stopFast();
+    const id = await stopFast();
     clearScheduled();
     show(copy.toasts.fastStopped, "info");
+    // Offer the skippable mood/note capture for the just-saved row.
+    if (id !== null) setMoodSessionId(id);
   }
 
   function handleSaveStart(startMs: number) {
@@ -107,6 +113,12 @@ export function TimerControls({ activeFast }: TimerControlsProps) {
         startMs={activeFast.startMs}
         onClose={() => setSheetOpen(false)}
         onSave={handleSaveStart}
+      />
+
+      <MoodNoteSheet
+        open={moodSessionId !== null}
+        sessionId={moodSessionId}
+        onClose={() => setMoodSessionId(null)}
       />
     </>
   );

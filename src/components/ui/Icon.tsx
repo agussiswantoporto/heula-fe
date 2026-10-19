@@ -42,6 +42,10 @@ import {
   IoTrendingDown,
   IoAddOutline,
   IoSparklesOutline,
+  IoBatteryChargingOutline,
+  IoRemoveCircleOutline,
+  IoBatteryDeadOutline,
+  IoFastFoodOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -82,6 +86,10 @@ const ICONS = {
   trend_down: IoTrendingDown,
   plus: IoAddOutline,
   suggestion: IoSparklesOutline,
+  mood_energik: IoBatteryChargingOutline,
+  mood_biasa: IoRemoveCircleOutline,
+  mood_lemes: IoBatteryDeadOutline,
+  mood_lapar: IoFastFoodOutline,
 } satisfies Record<IconKey, IconType>;
 
 export interface IconProps {
