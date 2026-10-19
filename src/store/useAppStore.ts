@@ -20,6 +20,7 @@ import { scheduleEndReminder } from "@/lib/notifications";
 import type { AppState, PersistedState } from "@/store/types";
 import type { FastingSessionRecord, MethodId, ProfilingAnswers } from "@/types";
 import * as sessions from "@/db/sessions";
+import * as weights from "@/db/weights";
 
 const MS_PER_HOUR = 3_600_000;
 
@@ -125,7 +126,7 @@ export const useAppStore = create<AppState>()(
 
       async stopFast(now = Date.now()) {
         const { activeFast } = get();
-        if (!activeFast) return;
+        if (!activeFast) return null;
 
         const targetMs = activeFast.targetHours * MS_PER_HOUR;
         const durationMs = Math.max(0, now - activeFast.startMs);
@@ -142,8 +143,9 @@ export const useAppStore = create<AppState>()(
           createdAt: now,
         };
 
-        await sessions.add(record);
+        const id = await sessions.add(record);
         set({ activeFast: null });
+        return id;
       },
 
       rerunProfiling(answers, method) {
@@ -157,6 +159,7 @@ export const useAppStore = create<AppState>()(
 
       async resetAll() {
         await sessions.clear();
+        await weights.clear();
         set({ ...INITIAL_STATE, hydrated: true });
       },
     }),

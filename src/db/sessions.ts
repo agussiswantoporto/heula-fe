@@ -11,7 +11,7 @@
  * "use client" modules (ESLint-enforced, design Section 9).
  */
 import { db } from "@/db/db";
-import type { FastingSessionRecord } from "@/types";
+import type { FastingSessionRecord, Mood } from "@/types";
 
 const DEV = process.env.NODE_ENV !== "production";
 const MS_PER_DAY = 86_400_000;
@@ -50,6 +50,20 @@ export async function all(): Promise<FastingSessionRecord[]> {
   } catch (err) {
     devError("all failed", err);
     return [];
+  }
+}
+
+/** Attach/overwrite the optional mood/note on a session; resolves to success. */
+export async function setMoodNote(
+  id: number,
+  patch: { mood?: Mood; note?: string },
+): Promise<boolean> {
+  try {
+    await db.sessions.update(id, patch);
+    return true;
+  } catch (err) {
+    devError("setMoodNote failed", err);
+    return false;
   }
 }
 

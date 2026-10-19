@@ -93,4 +93,20 @@ export interface FastingSessionRecord {
   durationMs: number; // endMs - startMs
   completed: boolean; // true if durationMs >= target
   createdAt: number; // epoch ms, for ordering
+  mood?: Mood; // optional post-session rating (older rows stay undefined)
+  note?: string; // optional post-session note (older rows stay undefined)
+}
+
+/** How a fasting session felt, captured on stop (optional, unindexed). */
+export type Mood = "energik" | "biasa" | "lemes" | "lapar";
+
+/**
+ * A single weight log entry. `id` is the Dexie auto-increment PK and
+ * `recordedAt` is an epoch-ms timestamp used for trend ordering/charting.
+ */
+export interface WeightRecord {
+  id?: number; // Dexie auto-increment PK
+  weightKg: number;
+  recordedAt: number; // epoch ms
+  note?: string;
 }

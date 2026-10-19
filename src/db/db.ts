@@ -8,10 +8,11 @@
  * are forbidden so no server render ever constructs or queries the DB.
  */
 import Dexie, { type Table } from "dexie";
-import type { FastingSessionRecord } from "@/types";
+import type { FastingSessionRecord, WeightRecord } from "@/types";
 
 export class HeulaDB extends Dexie {
   sessions!: Table<FastingSessionRecord, number>;
+  weights!: Table<WeightRecord, number>;
 
   constructor() {
     super("heula");
@@ -19,6 +20,13 @@ export class HeulaDB extends Dexie {
       // ++id auto PK; index startMs & createdAt for ordering/grouping;
       // completed for stats; planId for per-plan filtering.
       sessions: "++id, startMs, createdAt, completed, planId",
+    });
+    // Additive v2: keep the identical sessions index string (mood/note are
+    // unindexed) and add the new `weights` table. Dexie preserves all existing
+    // sessions rows and just creates the weights store.
+    this.version(2).stores({
+      sessions: "++id, startMs, createdAt, completed, planId",
+      weights: "++id, recordedAt",
     });
   }
 }

@@ -50,7 +50,7 @@ export interface AppState {
   setReminders(r: Partial<Reminders>): void;
   startFast(now?: number): void; // builds activeFast from chosenMethod
   editStartTime(startMs: number): void; // validates <= now
-  stopFast(now?: number): Promise<void>; // finalizes -> writes to Dexie, clears activeFast
+  stopFast(now?: number): Promise<number | null>; // finalizes -> writes to Dexie, clears activeFast, returns new session id (null on no-op/failure)
   rerunProfiling(answers: ProfilingAnswers, method: MethodId): void;
   resetAll(): Promise<void>; // clears Dexie + resets store to defaults
 }
