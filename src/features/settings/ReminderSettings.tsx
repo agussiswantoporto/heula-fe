@@ -50,13 +50,13 @@ function ToggleRow({ label, checked, disabled, onChange }: ToggleRowProps) {
         aria-label={label}
         disabled={disabled}
         onClick={() => onChange(!checked)}
-        className={`relative h-7 w-12 shrink-0 rounded-pill transition-colors disabled:opacity-40 ${
-          checked ? "bg-brand" : "bg-surface-2"
+        className={`relative h-[31px] w-[51px] shrink-0 rounded-pill border border-border/60 transition-colors duration-200 ease-out disabled:opacity-40 ${
+          checked ? "border-transparent bg-brand" : "bg-black/15 dark:bg-white/20"
         }`}
       >
         <span
-          className={`absolute top-0.5 h-6 w-6 rounded-pill bg-surface shadow-card transition-transform ${
-            checked ? "translate-x-5" : "translate-x-0.5"
+          className={`absolute left-[2px] top-1/2 h-[27px] w-[27px] -translate-y-1/2 rounded-pill bg-white shadow-[0_2px_4px_rgba(16,24,40,0.2)] transition-transform duration-200 ease-out ${
+            checked ? "translate-x-[20px]" : "translate-x-0"
           }`}
         />
       </button>
