@@ -52,7 +52,11 @@ export type IconKey =
   | "status_denied"
   | "status_default"
   | "status_unsupported"
-  | "bmi";
+  | "bmi"
+  | "weight"
+  | "trend_up"
+  | "trend_down"
+  | "plus";
 
 /** Timer-capable methods only. 5:2 is informational and NOT a MethodId. */
 export type MethodId = "14:10" | "16:8" | "18:6" | "20:4" | "omad" | "custom";

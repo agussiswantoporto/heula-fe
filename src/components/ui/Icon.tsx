@@ -37,6 +37,10 @@ import {
   IoAlertCircleOutline,
   IoWarningOutline,
   IoBodyOutline,
+  IoScaleOutline,
+  IoTrendingUp,
+  IoTrendingDown,
+  IoAddOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -72,6 +76,10 @@ const ICONS = {
   status_default: IoAlertCircleOutline,
   status_unsupported: IoWarningOutline,
   bmi: IoBodyOutline,
+  weight: IoScaleOutline,
+  trend_up: IoTrendingUp,
+  trend_down: IoTrendingDown,
+  plus: IoAddOutline,
 } satisfies Record<IconKey, IconType>;
 
 export interface IconProps {

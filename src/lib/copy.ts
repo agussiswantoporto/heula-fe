@@ -114,6 +114,39 @@ export const copy = {
       "BMI cuma indikator kasar dan gak bisa bedain massa otot sama lemak. Heula bukan pengganti saran dari dokter ya.",
   },
 
+  /**
+   * Weight tracker copy (FEAT-002). Casual Gojek voice, emoji-free. Used by the
+   * /stats/berat screen (logging, entry list, readouts, trend chart) and the
+   * Stats summary card that links to it.
+   */
+  weight: {
+    screenTitle: "Berat badan",
+    summaryLabel: "Berat badan",
+    summaryEmpty: "Belum ada catatan berat. Yuk catat yang pertama.",
+    inputLabel: "Berat badan sekarang",
+    inputUnit: "kg",
+    inputPlaceholder: "Contoh 65",
+    logButton: "Catat berat",
+    invalidRange: "Berat badan diisi antara 30 sampai 300 kg ya.",
+    emptyTitle: "Belum ada catatan berat",
+    emptyBody:
+      "Catat berat badanmu berkala biar kelihatan trennya dari waktu ke waktu.",
+    saved: "Berat badan udah kecatet.",
+    deleteConfirmTitle: "Hapus catatan berat ini?",
+    deleteConfirmBody:
+      "Catatan berat ini bakal dihapus permanen dan gak bisa dibalikin.",
+    deleteConfirmYes: "Ya, hapus",
+    deleteConfirmNo: "Batal",
+    deleteLabel: "Hapus catatan berat",
+    latestLabel: "Berat terakhir",
+    changeLabel: "Perubahan 30 hari",
+    changeNone: "Belum cukup data buat lihat perubahan.",
+    bmiChangeLabel: "Perubahan BMI",
+    trendTitle: "Tren berat badan",
+    heightMissingNote:
+      "Isi tinggi badan di profil dulu biar BMI dari waktu ke waktu bisa muncul. Catat berat tetap bisa kok.",
+  },
+
   /** Fasting stage descriptions (design Section 7.2), no emoji. */
   stages: {
     pencernaanLabel: "Pencernaan",
