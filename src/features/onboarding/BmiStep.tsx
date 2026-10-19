@@ -14,7 +14,6 @@
 import { useId } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
-import { cn } from "@/lib/cn";
 import { copy } from "@/lib/copy";
 import {
   HEIGHT_MAX_CM,
