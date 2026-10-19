@@ -18,15 +18,21 @@ Catatan penting: service worker (offline + installable) sengaja dimatiin di `npm
 
 ## Fitur
 
-- **Profiling di awal**: jawab tujuan puasa kamu (turun berat badan, kesehatan metabolik, fokus, maintain, atau coba-coba), apakah kamu olahraga, dan seberapa intens olahraganya.
+- **Profiling di awal**: jawab tujuan puasa kamu (turun berat badan, kesehatan metabolik, fokus, maintain, atau coba-coba), apakah kamu olahraga, seberapa intens olahraganya, plus tinggi dan berat badan buat hitung BMI.
 - **Rekomendasi metode IF**: berdasarkan jawaban profiling, Heula ngasih saran metode yang paling cocok. Ini cuma rekomendasi, kamu tetap bebas pilih metode lain yang kamu mau.
+- **Rekomendasi adaptif**: makin lama dipakai, Heula belajar dari riwayat puasa kamu (streak, rata-rata durasi, konsistensi) dan ngasih saran lanjutan yang pas, misalnya naik tangga metode pelan-pelan. Saran ini tetap aman: gak pernah maksa metode berat dan gak otomatis ganti metode kamu.
 - **Pilihan metode lengkap**: 14:10, 16:8, 18:6, 20:4, OMAD, dan custom (atur jam puasa sendiri 8 sampai 23 jam). Metode 5:2 ditampilin sebagai info aja, belum masuk timer.
 - **Timer puasa live**: progress ring, hitungan HH:MM:SS, target waktu buka, sisa waktu, dan indikator tahap puasa (Pencernaan, Mulai bakar lemak, Ketosis, Autophagy, Deep fast). Bisa lanjut ngitung lewat target (overfast).
+- **Timeline tahap puasa edukatif**: penjelasan tiap fase puasa, kapan tubuh masuk ke tahap itu, dan apa yang terjadi, biar kamu paham kenapa lagi puasa, bukan cuma lihat angka.
+- **Catatan dan mood per sesi**: pas selesai puasa, kamu bisa kasih rating gimana rasanya (energik, biasa, lemes, lapar) plus catatan singkat opsional.
 - **Ubah waktu mulai**: geser waktu mulai ke lebih awal; waktu di masa depan ditolak.
 - **Riwayat**: catatan puasa dikelompokin per hari, lengkap sama durasi, metode, dan badge target tercapai / disudahi lebih awal. Bisa hapus dengan konfirmasi.
 - **Statistik**: streak sekarang, streak terpanjang, total puasa, total jam, rata-rata durasi, plus grafik batang 7 hari terakhir (dibikin tanpa library chart) dan tujuan profiling kamu.
+- **Tracker berat badan**: log berat badan berkala (disimpan di IndexedDB), lihat grafik tren berat dan perubahan BMI dari waktu ke waktu di halaman Berat.
+- **Pencapaian**: badge milestone yang dihitung dari riwayat (streak 7 hari, puasa 18 jam pertama, total jam, dan lainnya) buat jaga motivasi tanpa norak.
+- **Kartu share**: ringkasan progres (streak, total jam) jadi kartu yang bisa dibagiin ke Instagram atau WhatsApp.
 - **Pengaturan**: ganti metode aktif (termasuk jam custom), atur target harian, pilih tema (ikut sistem / terang / gelap), kelola pengingat, atur ulang profil, dan reset semua data.
-- **PWA**: bisa di-install ke home screen dan punya halaman fallback saat offline.
+- **PWA**: bisa di-install ke home screen dan punya halaman fallback saat offline. Di Android dan desktop ada tombol pasang yang muncul di saat tepat lewat event `beforeinstallprompt`; di iOS ada hint pasang manual ke layar utama.
 
 ## Konvensi tampilan
 

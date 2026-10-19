@@ -1,0 +1,7 @@
+{
+  "task_id": "task-power-features",
+  "task_description": "Add SEVEN substantial features to the existing, building, approved Heula intermittent-fasting PWA, in place on branch main with no worktree: (1) weight tracker + trend chart, (2) adaptive recommendation that learns from history, (3) Android/desktop A2HS install prompt, (4) educational fasting-stage timeline, (5) achievements/milestones (derived, not persisted), (6) mood + note per session, (7) share card to Instagram/WhatsApp. Pure/derivable logic in framework-free src/lib (unit-tested), DB in src/db (additive Dexie migrations), UI under the four finalized tab routes, copy in copy.ts, icons via the Icon choke-point. Zero emoji; recommendation safety invariants preserved; layout + SW/notification subsystems not disturbed.",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004", "FEAT-005", "FEAT-006"],
+  "blocked_reason": null
+}
