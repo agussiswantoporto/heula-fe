@@ -36,7 +36,9 @@ function answers(
   exercises: boolean,
   intensity: Intensity | null,
 ): ProfilingAnswers {
-  return { goal, exercises, intensity };
+  // Normal-BMI height/weight (170cm/65kg => BMI ~22.5 => "normal") so BMI stays
+  // a pure no-op on these R1-R16 rows until FEAT-002 wires the adjustment.
+  return { goal, exercises, intensity, heightCm: 170, weightKg: 65 };
 }
 
 interface Row {
@@ -192,7 +194,13 @@ describe("recommendMethod — invariants over the 25 raw inputs", () => {
   const allInputs: ProfilingAnswers[] = [];
   for (const goal of GOALS) {
     for (const ex of EXERCISE_INPUTS) {
-      allInputs.push({ goal, exercises: ex.exercises, intensity: ex.intensity });
+      allInputs.push({
+        goal,
+        exercises: ex.exercises,
+        intensity: ex.intensity,
+        heightCm: 170,
+        weightKg: 65,
+      });
     }
   }
 
@@ -261,11 +269,15 @@ describe("recommendMethod — degenerate-input equivalence (Finding 1/2)", () =>
         goal,
         exercises: true,
         intensity: null,
+        heightCm: 170,
+        weightKg: 65,
       });
       const none = recommendMethod({
         goal,
         exercises: false,
         intensity: null,
+        heightCm: 170,
+        weightKg: 65,
       });
       expect(degenerate).toEqual(none);
     });

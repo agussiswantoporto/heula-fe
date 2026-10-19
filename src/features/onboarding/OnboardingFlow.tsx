@@ -36,6 +36,8 @@ export function OnboardingFlow() {
   const [goal, setGoal] = useState<Goal | null>(null);
   const [exercises, setExercises] = useState<boolean | null>(null);
   const [intensity, setIntensity] = useState<Intensity | null>(null);
+  const [heightCm, setHeightCm] = useState<number | null>(null);
+  const [weightKg, setWeightKg] = useState<number | null>(null);
 
   function goNext() {
     setDirection(1);
@@ -59,6 +61,8 @@ export function OnboardingFlow() {
       goal: goal as Goal,
       exercises: exercises as boolean,
       intensity: exercises ? intensity : null,
+      heightCm: heightCm as number,
+      weightKg: weightKg as number,
     };
 
     if (isRerun) {
@@ -95,6 +99,8 @@ export function OnboardingFlow() {
         goal: goal as Goal,
         exercises: exercises as boolean,
         intensity: exercises ? intensity : null,
+        heightCm: heightCm as number,
+        weightKg: weightKg as number,
       }}
       onConfirm={handleConfirm}
       onBack={goBack}

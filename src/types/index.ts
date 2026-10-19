@@ -69,6 +69,8 @@ export interface ProfilingAnswers {
   goal: Goal;
   exercises: boolean;
   intensity: Intensity | null; // null when exercises === false
+  heightCm: number; // mandatory, drives Asia-Pacific BMI (see src/lib/bmi.ts)
+  weightKg: number; // mandatory, drives Asia-Pacific BMI (see src/lib/bmi.ts)
   lastMealHour?: number | null; // optional, 0-23, unused by recommendation
   wakeHour?: number | null; // optional, 0-23, unused by recommendation
 }
