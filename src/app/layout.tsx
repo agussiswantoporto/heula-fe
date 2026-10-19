@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@/app/globals.css";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import { AppShell } from "@/components/layout/AppShell";
-import { BottomTabBar } from "@/components/layout/BottomTabBar";
+import { Chrome } from "@/components/layout/Chrome";
 
 export const metadata: Metadata = {
   applicationName: "Heula",
@@ -58,8 +57,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <ToastProvider>
-            <AppShell>{children}</AppShell>
-            <BottomTabBar />
+            <Chrome>{children}</Chrome>
           </ToastProvider>
         </ThemeProvider>
       </body>
