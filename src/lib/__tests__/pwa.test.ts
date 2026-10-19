@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { isIOS, isStandalone, shouldShowIOSInstallHint } from "@/lib/pwa";
+import {
+  canPromptInstall,
+  isIOS,
+  isStandalone,
+  shouldShowIOSInstallHint,
+} from "@/lib/pwa";
 
 /**
  * The vitest environment is "node" (no window/navigator), which exercises the
@@ -18,11 +23,16 @@ describe("pwa detection — SSR-safe defaults (no window/navigator)", () => {
     expect(shouldShowIOSInstallHint()).toBe(false);
   });
 
+  it("canPromptInstall returns false without window", () => {
+    expect(canPromptInstall()).toBe(false);
+  });
+
   it("helpers do not throw in a server-like environment", () => {
     expect(() => {
       isStandalone();
       isIOS();
       shouldShowIOSInstallHint();
+      canPromptInstall();
     }).not.toThrow();
   });
 });

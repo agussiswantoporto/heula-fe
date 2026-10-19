@@ -50,6 +50,7 @@ import {
   IoLockClosedOutline,
   IoMedalOutline,
   IoRibbonOutline,
+  IoShareSocialOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -80,6 +81,7 @@ const ICONS = {
   exercise: IoBarbellOutline,
   install: IoDownloadOutline,
   share: IoShareOutline,
+  share_social: IoShareSocialOutline,
   status_granted: IoCheckmarkCircle,
   status_denied: IoCloseCircleOutline,
   status_default: IoAlertCircleOutline,

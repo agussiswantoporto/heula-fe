@@ -26,6 +26,7 @@ import { PlanPicker } from "@/features/settings/PlanPicker";
 import { DailyGoalPicker } from "@/features/settings/DailyGoalPicker";
 import { ReminderSettings } from "@/features/settings/ReminderSettings";
 import { AboutCard } from "@/features/settings/AboutCard";
+import { InstallPrompt } from "@/features/pwa/InstallPrompt";
 
 const THEME_OPTIONS: { value: Theme; label: string }[] = [
   { value: "system", label: copy.settings.themeSystem },
@@ -60,6 +61,8 @@ export default function ProfilePage() {
       </h1>
 
       <div className="mt-6 flex flex-col gap-4">
+        <InstallPrompt />
+
         <Card>
           <PlanPicker />
         </Card>

@@ -37,3 +37,29 @@ export function isIOS(): boolean {
 export function shouldShowIOSInstallHint(): boolean {
   return isIOS() && !isStandalone();
 }
+
+/**
+ * The non-standardized `beforeinstallprompt` event (Chromium Android/desktop).
+ * Typed locally because it is not in the DOM lib. `prompt()` shows the native
+ * install dialog; `userChoice` resolves once the user accepts or dismisses.
+ */
+export interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
+/**
+ * SSR-safe feature detection for the Android/desktop install prompt. iOS Safari
+ * never fires `beforeinstallprompt`, so this returns false there (and on the
+ * server), which keeps the 'Pasang Heula' button and the iOS hint from ever
+ * both nagging. The actual event still has to fire before anything shows; this
+ * only gates whether we bother listening.
+ */
+export function canPromptInstall(): boolean {
+  if (typeof window === "undefined") return false;
+  return "onbeforeinstallprompt" in window && !isStandalone();
+}

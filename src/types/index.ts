@@ -48,6 +48,7 @@ export type IconKey =
   | "exercise"
   | "install"
   | "share"
+  | "share_social"
   | "status_granted"
   | "status_denied"
   | "status_default"

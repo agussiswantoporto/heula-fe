@@ -29,10 +29,12 @@ import { evaluateAchievements, unlockedCount } from "@/lib/achievements";
 import { moodBreakdown } from "@/lib/mood";
 import { streaks, totals, weekly } from "@/lib/stats";
 import { deltas, latest } from "@/lib/weight";
+import { METHODS } from "@/lib/methods";
 import { db } from "@/db/db";
 import { useAppStore } from "@/store/useAppStore";
 import { WeeklyBarChart } from "@/features/stats/WeeklyBarChart";
 import { AdaptiveCard } from "@/features/adaptive/AdaptiveCard";
+import { ShareCard } from "@/features/share/ShareCard";
 import type { IconKey, Mood, WeightRecord } from "@/types";
 
 const BMI_TEXT: Record<BmiCategory, string> = {
@@ -181,6 +183,8 @@ function AchievementsSummaryCard({
 
 export function StatsOverview() {
   const profiling = useAppStore((s) => s.profiling);
+  const chosenMethod = useAppStore((s) => s.chosenMethod);
+  const customFastingHours = useAppStore((s) => s.customFastingHours);
   const list = useLiveQuery(
     () => db.sessions.orderBy("startMs").reverse().toArray(),
     [],
@@ -219,6 +223,12 @@ export function StatsOverview() {
   const buckets = weekly(list, now);
   const moods = moodBreakdown(list);
   const achievements = evaluateAchievements({ sessions: list, now });
+
+  // Active method label for the share card (custom resolves to "Custom Nj").
+  const methodLabel =
+    chosenMethod === "custom"
+      ? `Custom ${customFastingHours}j`
+      : METHODS[chosenMethod].label;
 
   return (
     <div className="flex flex-col gap-5">
@@ -292,6 +302,13 @@ export function StatsOverview() {
           </Card>
 
           <MoodSummaryCard breakdown={moods} />
+
+          <ShareCard
+            currentStreak={s.current}
+            totalHours={t.totalHours}
+            totalFasts={t.totalFasts}
+            methodLabel={methodLabel}
+          />
         </>
       )}
     </div>

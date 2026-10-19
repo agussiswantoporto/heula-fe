@@ -266,6 +266,45 @@ export const copy = {
     longestDesc: "Catat satu puasa 24 jam atau lebih.",
   },
 
+  /**
+   * Share card copy (FEAT-006, Feature 7). Casual Gojek voice, emoji-free.
+   * Drawn on the Canvas (title/heading + stat line labels/units) and used for
+   * the UI action labels plus the friendly degrade when neither Web Share with
+   * files nor a download is available.
+   */
+  share: {
+    cardTitle: "Heula",
+    cardHeading: "Progres puasaku",
+    cardFooter: "Dicatat bareng Heula",
+    statStreak: "Streak sekarang",
+    statTotalHours: "Total jam puasa",
+    statTotalFasts: "Total puasa",
+    statMethod: "Metode",
+    unitDay: "hari",
+    unitHour: "jam",
+    unitFast: "kali",
+    shareButton: "Bagikan progres",
+    downloadButton: "Unduh gambar",
+    shareTitle: "Progres puasaku di Heula",
+    shareText: "Ini progres puasaku bareng Heula.",
+    downloadFileName: "progres-heula.png",
+    fallback:
+      "Browser kamu belum dukung bagikan gambar langsung. Coba screenshot kartunya aja ya.",
+  },
+
+  /**
+   * Install / A2HS copy (FEAT-006, Feature 3). Casual Gojek voice, emoji-free.
+   * The 'Pasang Heula' button only shows on Android/desktop after the
+   * beforeinstallprompt event fires, so it never nags alongside the iOS hint.
+   */
+  install: {
+    title: "Pasang Heula di HP kamu",
+    body:
+      "Biar makin enak dibuka dan kerasa kaya aplikasi beneran, pasang Heula sekarang yuk.",
+    button: "Pasang Heula",
+    dismiss: "Nanti aja",
+  },
+
   /** Toasts in friendly voice. */
   toasts: {
     fastStarted: "Yuk mulai puasa, kamu pasti bisa!",
