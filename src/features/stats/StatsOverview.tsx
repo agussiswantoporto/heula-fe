@@ -25,6 +25,7 @@ import {
   isValidBmiInput,
   type BmiCategory,
 } from "@/lib/bmi";
+import { evaluateAchievements, unlockedCount } from "@/lib/achievements";
 import { moodBreakdown } from "@/lib/mood";
 import { streaks, totals, weekly } from "@/lib/stats";
 import { deltas, latest } from "@/lib/weight";
@@ -145,6 +146,39 @@ function MoodSummaryCard({ breakdown }: { breakdown: Record<Mood, number> }) {
   );
 }
 
+/**
+ * Compact "Pencapaian" summary that links to /stats/pencapaian. Shows how many
+ * milestones are unlocked out of the full catalog, derived purely from history
+ * via evaluateAchievements (no badge state stored). Nested route keeps the tab
+ * bar (startsWith "/stats").
+ */
+function AchievementsSummaryCard({
+  unlocked,
+  total,
+}: {
+  unlocked: number;
+  total: number;
+}) {
+  return (
+    <Link href="/stats/pencapaian" className="block">
+      <Card className="flex items-center gap-3 active:opacity-80">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-brand-soft text-brand">
+          <Icon name="achievement" size={22} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs text-content-muted">
+            {copy.achievements.summaryLabel}
+          </p>
+          <p className="mt-0.5 text-sm font-semibold tabular-nums text-content">
+            {copy.achievements.summaryCount(unlocked, total)}
+          </p>
+        </div>
+        <Icon name="chevron" size={20} className="shrink-0 text-content-muted" />
+      </Card>
+    </Link>
+  );
+}
+
 export function StatsOverview() {
   const profiling = useAppStore((s) => s.profiling);
   const list = useLiveQuery(
@@ -184,6 +218,7 @@ export function StatsOverview() {
   const s = streaks(list, now);
   const buckets = weekly(list, now);
   const moods = moodBreakdown(list);
+  const achievements = evaluateAchievements({ sessions: list, now });
 
   return (
     <div className="flex flex-col gap-5">
@@ -215,6 +250,13 @@ export function StatsOverview() {
       )}
 
       <WeightSummaryCard list={weightList} />
+
+      {list.length > 0 && (
+        <AchievementsSummaryCard
+          unlocked={unlockedCount(achievements)}
+          total={achievements.length}
+        />
+      )}
 
       <AdaptiveCard />
 

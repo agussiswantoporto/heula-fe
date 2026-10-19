@@ -196,18 +196,74 @@ export const copy = {
     pencernaanLabel: "Pencernaan",
     pencernaanDesc:
       "Tubuhmu lagi nyerna makanan terakhir dan ngatur gula darah.",
+    pencernaanWhat:
+      "Jam-jam awal ini tubuh masih sibuk nyerna makanan terakhir. Gula darah naik lalu pelan-pelan turun, dan insulin kerja ngatur energinya.",
+    pencernaanTip:
+      "Minum air yang cukup biar nyaman. Gak usah buru-buru lapar, ini masih tahap santai.",
     bakarLemakLabel: "Mulai bakar lemak",
     bakarLemakDesc:
       "Cadangan gula mulai menipis, tubuh pelan-pelan beralih ke lemak.",
+    bakarLemakWhat:
+      "Simpanan gula di hati mulai menipis, jadi tubuh pelan-pelan beralih ambil energi dari lemak. Rasa lapar bisa dateng-pergi di fase ini.",
+    bakarLemakTip:
+      "Kalau lapar muncul, biasanya cuma sebentar. Teh atau kopi tanpa gula bisa bantu lewatin.",
     ketosisLabel: "Ketosis mulai",
     ketosisDesc:
       "Tubuh makin banyak bakar lemak dan mulai produksi keton.",
+    ketosisWhat:
+      "Tubuh makin banyak bakar lemak dan mulai produksi keton buat bahan bakar. Banyak orang mulai berasa fokus dan enteng di sini.",
+    ketosisTip:
+      "Jaga asupan garam dan air biar gak gampang pusing. Nikmati fokusnya buat kerja.",
     autophagyLabel: "Autophagy",
     autophagyDesc:
       "Sel-sel mulai bersih-bersih dan daur ulang bagian yang rusak.",
+    autophagyWhat:
+      "Sel-sel mulai bersih-bersih dan daur ulang bagian yang udah rusak. Ini salah satu manfaat puasa yang paling dicari.",
+    autophagyTip:
+      "Dengerin tubuhmu. Kalau masih kuat, lanjut pelan-pelan aja tanpa dipaksa.",
     deepFastLabel: "Deep fast",
     deepFastDesc:
       "Puasa dalam, proses pemulihan dan pembersihan sel makin maksimal.",
+    deepFastWhat:
+      "Puasa dalam, proses pemulihan dan pembersihan sel makin maksimal. Tubuh udah sepenuhnya pakai lemak sebagai energi utama.",
+    deepFastTip:
+      "Fase ini buat yang udah berpengalaman. Berhenti kalau badan kasih sinyal, jangan dipaksain.",
+  },
+
+  /**
+   * Achievements / milestones copy (FEAT-005, Feature 5). Casual Gojek voice,
+   * emoji-free. Derived purely from history + stats, no badge state persisted.
+   * Titles + descriptions keyed by milestone id in @/lib/achievements.
+   */
+  achievements: {
+    screenTitle: "Pencapaian",
+    summaryLabel: "Pencapaian",
+    summaryCount: (unlocked: number, total: number) =>
+      `${unlocked} dari ${total} kebuka`,
+    unlockedTitle: "Udah kebuka",
+    lockedTitle: "Belum kebuka",
+    emptyTitle: "Belum ada pencapaian",
+    emptyBody:
+      "Mulai puasa pertamamu dulu yuk, pencapaian bakal kebuka pelan-pelan.",
+    progressLabel: "Progres",
+    firstFastTitle: "Langkah pertama",
+    firstFastDesc: "Selesaikan puasa pertamamu.",
+    first18Title: "Tembus 18 jam",
+    first18Desc: "Selesaikan satu puasa 18 jam atau lebih.",
+    streak7Title: "Konsisten seminggu",
+    streak7Desc: "Jaga streak puasa 7 hari berturut-turut.",
+    streak30Title: "Sebulan penuh",
+    streak30Desc: "Jaga streak puasa 30 hari berturut-turut.",
+    hours100Title: "Seratus jam",
+    hours100Desc: "Kumpulin total 100 jam puasa.",
+    fasts10Title: "Sepuluh kali",
+    fasts10Desc: "Selesaikan 10 puasa.",
+    fasts50Title: "Lima puluh kali",
+    fasts50Desc: "Selesaikan 50 puasa.",
+    fasts100Title: "Seratus kali",
+    fasts100Desc: "Selesaikan 100 puasa.",
+    longestTitle: "Rekor terpanjang",
+    longestDesc: "Catat satu puasa 24 jam atau lebih.",
   },
 
   /** Toasts in friendly voice. */
@@ -291,6 +347,8 @@ export const copy = {
     editStartLabel: "Kapan kamu mulai puasa?",
     editStartFuture: "Waktu mulai gak boleh di masa depan ya.",
     editStartSave: "Simpan",
+    timelineTitle: "Perjalanan puasamu",
+    timelineNow: "Sekarang",
   },
 
   /** History screen copy. */

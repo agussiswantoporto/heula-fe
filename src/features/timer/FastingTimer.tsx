@@ -28,6 +28,7 @@ import { AdaptiveCard } from "@/features/adaptive/AdaptiveCard";
 import { MoodNoteSheet } from "@/features/history/MoodNoteSheet";
 import { ProgressRing } from "@/features/timer/ProgressRing";
 import { StageIndicator } from "@/features/timer/StageIndicator";
+import { StageTimeline } from "@/features/timer/StageTimeline";
 import { TimerControls } from "@/features/timer/TimerControls";
 import { useTimer } from "@/features/timer/useTimer";
 
@@ -150,6 +151,8 @@ export function FastingTimer() {
       </div>
 
       <StageIndicator stage={stage} />
+
+      <StageTimeline elapsedMs={t.elapsedMs} />
 
       <AdaptiveCard />
 

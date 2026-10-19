@@ -46,6 +46,10 @@ import {
   IoRemoveCircleOutline,
   IoBatteryDeadOutline,
   IoFastFoodOutline,
+  IoTrophyOutline,
+  IoLockClosedOutline,
+  IoMedalOutline,
+  IoRibbonOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -90,6 +94,10 @@ const ICONS = {
   mood_biasa: IoRemoveCircleOutline,
   mood_lemes: IoBatteryDeadOutline,
   mood_lapar: IoFastFoodOutline,
+  achievement: IoTrophyOutline,
+  achievement_locked: IoLockClosedOutline,
+  milestone: IoMedalOutline,
+  ribbon: IoRibbonOutline,
 } satisfies Record<IconKey, IconType>;
 
 export interface IconProps {

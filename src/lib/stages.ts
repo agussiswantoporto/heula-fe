@@ -21,9 +21,17 @@ export interface Stage {
   key: StageKey;
   label: string;
   description: string;
+  whatHappens: string;
+  tip: string;
   iconKey: IconKey;
   minHours: number;
   maxHours: number | null;
+}
+
+/** A stage marked relative to the live elapsed time (see timelineForElapsed). */
+export interface TimelineEntry {
+  stage: Stage;
+  state: "passed" | "current" | "upcoming";
 }
 
 const STAGES: Stage[] = [
@@ -31,6 +39,8 @@ const STAGES: Stage[] = [
     key: "pencernaan",
     label: copy.stages.pencernaanLabel,
     description: copy.stages.pencernaanDesc,
+    whatHappens: copy.stages.pencernaanWhat,
+    tip: copy.stages.pencernaanTip,
     iconKey: "stage_pencernaan",
     minHours: 0,
     maxHours: 4,
@@ -39,6 +49,8 @@ const STAGES: Stage[] = [
     key: "bakar_lemak",
     label: copy.stages.bakarLemakLabel,
     description: copy.stages.bakarLemakDesc,
+    whatHappens: copy.stages.bakarLemakWhat,
+    tip: copy.stages.bakarLemakTip,
     iconKey: "stage_bakar_lemak",
     minHours: 4,
     maxHours: 12,
@@ -47,6 +59,8 @@ const STAGES: Stage[] = [
     key: "ketosis",
     label: copy.stages.ketosisLabel,
     description: copy.stages.ketosisDesc,
+    whatHappens: copy.stages.ketosisWhat,
+    tip: copy.stages.ketosisTip,
     iconKey: "stage_ketosis",
     minHours: 12,
     maxHours: 16,
@@ -55,6 +69,8 @@ const STAGES: Stage[] = [
     key: "autophagy",
     label: copy.stages.autophagyLabel,
     description: copy.stages.autophagyDesc,
+    whatHappens: copy.stages.autophagyWhat,
+    tip: copy.stages.autophagyTip,
     iconKey: "stage_autophagy",
     minHours: 16,
     maxHours: 24,
@@ -63,6 +79,8 @@ const STAGES: Stage[] = [
     key: "deep_fast",
     label: copy.stages.deepFastLabel,
     description: copy.stages.deepFastDesc,
+    whatHappens: copy.stages.deepFastWhat,
+    tip: copy.stages.deepFastTip,
     iconKey: "stage_deep_fast",
     minHours: 24,
     maxHours: null,
@@ -80,4 +98,23 @@ export function stageForElapsed(elapsedMs: number): Stage {
   }
   // Unreachable: bounds cover [0, inf). Return the last (Deep fast) defensively.
   return STAGES[STAGES.length - 1];
+}
+
+/**
+ * All stages in order, each marked relative to the live elapsed time:
+ * - `current`  is the stage `stageForElapsed` resolves to,
+ * - `passed`   is any stage fully behind the current one,
+ * - `upcoming` is any stage still ahead.
+ *
+ * Pure and deterministic: elapsed drives the single `current`; the index of the
+ * current stage partitions the rest. Exactly one entry is ever `current`.
+ */
+export function timelineForElapsed(elapsedMs: number): TimelineEntry[] {
+  const current = stageForElapsed(elapsedMs);
+  const currentIndex = STAGES.findIndex((s) => s.key === current.key);
+  return STAGES.map((stage, i) => ({
+    stage,
+    state:
+      i === currentIndex ? "current" : i < currentIndex ? "passed" : "upcoming",
+  }));
 }
