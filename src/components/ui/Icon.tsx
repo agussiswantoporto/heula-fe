@@ -41,6 +41,7 @@ import {
   IoTrendingUp,
   IoTrendingDown,
   IoAddOutline,
+  IoSparklesOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -80,6 +81,7 @@ const ICONS = {
   trend_up: IoTrendingUp,
   trend_down: IoTrendingDown,
   plus: IoAddOutline,
+  suggestion: IoSparklesOutline,
 } satisfies Record<IconKey, IconType>;
 
 export interface IconProps {

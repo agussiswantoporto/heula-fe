@@ -56,7 +56,8 @@ export type IconKey =
   | "weight"
   | "trend_up"
   | "trend_down"
-  | "plus";
+  | "plus"
+  | "suggestion";
 
 /** Timer-capable methods only. 5:2 is informational and NOT a MethodId. */
 export type MethodId = "14:10" | "16:8" | "18:6" | "20:4" | "omad" | "custom";

@@ -30,6 +30,7 @@ import { deltas, latest } from "@/lib/weight";
 import { db } from "@/db/db";
 import { useAppStore } from "@/store/useAppStore";
 import { WeeklyBarChart } from "@/features/stats/WeeklyBarChart";
+import { AdaptiveCard } from "@/features/adaptive/AdaptiveCard";
 import type { WeightRecord } from "@/types";
 
 const BMI_TEXT: Record<BmiCategory, string> = {
@@ -170,6 +171,8 @@ export function StatsOverview() {
       )}
 
       <WeightSummaryCard list={weightList} />
+
+      <AdaptiveCard />
 
       {list.length === 0 ? (
         <EmptyState icon="tab_stats" title={copy.states.statsEmpty} />

@@ -24,6 +24,7 @@ import { stageForElapsed } from "@/lib/stages";
 import { computeTimer, formatHMS } from "@/lib/timer";
 import { formatClock } from "@/lib/time";
 import { useAppStore } from "@/store/useAppStore";
+import { AdaptiveCard } from "@/features/adaptive/AdaptiveCard";
 import { ProgressRing } from "@/features/timer/ProgressRing";
 import { StageIndicator } from "@/features/timer/StageIndicator";
 import { TimerControls } from "@/features/timer/TimerControls";
@@ -143,6 +144,8 @@ export function FastingTimer() {
       </div>
 
       <StageIndicator stage={stage} />
+
+      <AdaptiveCard />
 
       {showCompletePrompt && (
         <Card className="border-brand bg-surface-2">

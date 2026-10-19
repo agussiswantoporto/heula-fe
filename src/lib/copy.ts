@@ -147,6 +147,23 @@ export const copy = {
       "Isi tinggi badan di profil dulu biar BMI dari waktu ke waktu bisa muncul. Catat berat tetap bisa kok.",
   },
 
+  /**
+   * Adaptive recommendation copy (FEAT-003). Casual Gojek voice, emoji-free.
+   * Used by the additive, dismissible "Saran buat kamu" card that reads from
+   * fasting history and never auto-changes the method (tap goes to Plan Picker).
+   * level_up/ease_down build phrasing from the from/to method labels.
+   */
+  adaptive: {
+    cardTitle: "Saran buat kamu",
+    cta: "Lihat metode",
+    dismiss: "Nanti aja",
+    levelUp: (from: string, to: string) =>
+      `Kamu konsisten banget di ${from}. Kalau udah pede, coba naik ke ${to} pelan-pelan yuk.`,
+    easeDown: (from: string, to: string) =>
+      `Sering berhenti sebelum target di ${from}? Santai, turunin dulu ke ${to} biar lebih kebawa.`,
+    streak: "Streak kamu lagi jalan, mantap. Jaga ritmenya ya, kamu keren.",
+  },
+
   /** Fasting stage descriptions (design Section 7.2), no emoji. */
   stages: {
     pencernaanLabel: "Pencernaan",
