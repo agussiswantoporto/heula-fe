@@ -81,6 +81,39 @@ export const copy = {
       "16:8 ramah buat pemula dan tetap nyambung sama aktivitasmu.",
   },
 
+  /**
+   * BMI step copy (FEAT-003). Casual Gojek voice, emoji-free. Category labels
+   * and one-liners are reused by the onboarding BmiStep gauge; the stats card
+   * uses copy.stats.bmi* below.
+   */
+  bmi: {
+    stepTitle: "Tinggi sama berat kamu berapa?",
+    stepIntro:
+      "Kita hitung BMI kamu dulu biar rekomendasi puasanya makin pas. Datanya cuma disimpen di HP kamu kok.",
+    heightLabel: "Tinggi badan",
+    heightUnit: "cm",
+    heightPlaceholder: "Contoh 170",
+    weightLabel: "Berat badan",
+    weightUnit: "kg",
+    weightPlaceholder: "Contoh 65",
+    heightInvalid: "Tinggi badan diisi antara 100 sampai 250 cm ya.",
+    weightInvalid: "Berat badan diisi antara 30 sampai 300 kg ya.",
+    resultLabel: "BMI kamu",
+    underweightLabel: "Di bawah ideal",
+    normalLabel: "Ideal",
+    overweightLabel: "Di atas ideal",
+    obeseLabel: "Jauh di atas ideal",
+    underweightDesc:
+      "Berat badanmu masih kurang. Yuk fokus makan cukup dan bergizi dulu.",
+    normalDesc: "Mantap, berat badanmu udah pas. Pertahankan ya.",
+    overweightDesc:
+      "Berat badanmu sedikit di atas ideal. Pelan-pelan aja, kamu pasti bisa.",
+    obeseDesc:
+      "Berat badanmu lagi di atas ideal. Santai, kita jalanin bareng pelan-pelan.",
+    disclaimer:
+      "BMI cuma indikator kasar dan gak bisa bedain massa otot sama lemak. Heula bukan pengganti saran dari dokter ya.",
+  },
+
   /** Fasting stage descriptions (design Section 7.2), no emoji. */
   stages: {
     pencernaanLabel: "Pencernaan",
@@ -136,6 +169,7 @@ export const copy = {
       "Teman puasa kamu yang bantu atur jadwal dan pantau progres. Yuk kenalan dulu.",
     goalQuestion: "Apa tujuan puasa kamu?",
     exerciseQuestion: "Kamu olahraga gak?",
+    bmiQuestion: "Tinggi sama berat kamu berapa?",
     exerciseYes: "Ya, olahraga",
     exerciseNo: "Gak olahraga",
     intensityQuestion: "Seberapa intens olahraganya?",
@@ -210,6 +244,11 @@ export const copy = {
     dayUnit: "hari",
     fastUnit: "kali",
     hourUnit: "jam",
+    bmiLabel: "BMI kamu",
+    bmiUnderweight: "Berat badanmu masih di bawah ideal, jaga asupan ya.",
+    bmiNormal: "Berat badanmu ideal, pertahankan terus.",
+    bmiOverweight: "Berat badanmu sedikit di atas ideal, pelan-pelan aja.",
+    bmiObese: "Berat badanmu di atas ideal, santai kita jalanin bareng.",
   },
 
   /** Settings / profile copy. */

@@ -36,6 +36,7 @@ import {
   IoCloseCircleOutline,
   IoAlertCircleOutline,
   IoWarningOutline,
+  IoBodyOutline,
 } from "react-icons/io5";
 import type { IconKey } from "@/types";
 
@@ -70,6 +71,7 @@ const ICONS = {
   status_denied: IoCloseCircleOutline,
   status_default: IoAlertCircleOutline,
   status_unsupported: IoWarningOutline,
+  bmi: IoBodyOutline,
 } satisfies Record<IconKey, IconType>;
 
 export interface IconProps {

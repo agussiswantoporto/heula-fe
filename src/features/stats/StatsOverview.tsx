@@ -18,10 +18,23 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { Icon } from "@/components/ui/Icon";
 import { Spinner } from "@/components/ui/Spinner";
 import { copy, GOAL_LABELS } from "@/lib/copy";
+import {
+  bmiCategory,
+  computeBmi,
+  isValidBmiInput,
+  type BmiCategory,
+} from "@/lib/bmi";
 import { streaks, totals, weekly } from "@/lib/stats";
 import { db } from "@/db/db";
 import { useAppStore } from "@/store/useAppStore";
 import { WeeklyBarChart } from "@/features/stats/WeeklyBarChart";
+
+const BMI_TEXT: Record<BmiCategory, string> = {
+  underweight: copy.stats.bmiUnderweight,
+  normal: copy.stats.bmiNormal,
+  overweight: copy.stats.bmiOverweight,
+  obese: copy.stats.bmiObese,
+};
 
 interface StatCardProps {
   label: string;
@@ -48,6 +61,17 @@ export function StatsOverview() {
     ? GOAL_LABELS[profiling.goal]
     : copy.states.noGoal;
 
+  // Older persisted profiling predates BMI, so height/weight may be undefined.
+  // Guard with isValidBmiInput and only surface the card when both are valid.
+  const heightCm = profiling?.heightCm;
+  const weightKg = profiling?.weightKg;
+  const hasBmi =
+    heightCm !== undefined &&
+    weightKg !== undefined &&
+    isValidBmiInput(heightCm, weightKg);
+  const bmi = hasBmi ? computeBmi(heightCm, weightKg) : NaN;
+  const bmiCat = hasBmi ? bmiCategory(bmi) : null;
+
   if (list === undefined) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -72,6 +96,23 @@ export function StatsOverview() {
           <p className="text-sm font-semibold text-content">{goalLabel}</p>
         </div>
       </Card>
+
+      {hasBmi && bmiCat && (
+        <Card className="flex items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill bg-brand-soft text-brand">
+            <Icon name="bmi" size={22} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-xs text-content-muted">{copy.stats.bmiLabel}</p>
+            <p className="text-sm font-semibold tabular-nums text-content">
+              {bmi.toFixed(1)}
+            </p>
+            <p className="mt-0.5 text-xs text-content-muted">
+              {BMI_TEXT[bmiCat]}
+            </p>
+          </div>
+        </Card>
+      )}
 
       {list.length === 0 ? (
         <EmptyState icon="tab_stats" title={copy.states.statsEmpty} />

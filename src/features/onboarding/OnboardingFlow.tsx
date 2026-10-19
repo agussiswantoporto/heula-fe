@@ -3,7 +3,7 @@
 /**
  * OnboardingFlow (design Section 14).
  *
- * Orchestrates the four stepped cards (Welcome -> Goal -> Exercise ->
+ * Orchestrates the five stepped cards (Welcome -> Goal -> Exercise -> BMI ->
  * Recommendation) with a local step index and a motion horizontal spring slide
  * between steps. Draft answers live here until confirm.
  *
@@ -18,10 +18,14 @@ import { useAppStore } from "@/store/useAppStore";
 import { WelcomeStep } from "@/features/onboarding/WelcomeStep";
 import { GoalStep } from "@/features/onboarding/GoalStep";
 import { ExerciseStep } from "@/features/onboarding/ExerciseStep";
+import { BmiStep } from "@/features/onboarding/BmiStep";
 import { RecommendationStep } from "@/features/onboarding/RecommendationStep";
+import { isValidBmiInput } from "@/lib/bmi";
 import type { Goal, Intensity, MethodId, ProfilingAnswers } from "@/types";
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 5;
+/** Index of the mandatory BMI step (Welcome 0, Goal 1, Exercise 2, BMI 3). */
+const BMI_STEP = 3;
 
 export function OnboardingFlow() {
   const router = useRouter();
@@ -30,16 +34,33 @@ export function OnboardingFlow() {
 
   const completeOnboarding = useAppStore((s) => s.completeOnboarding);
   const rerunProfiling = useAppStore((s) => s.rerunProfiling);
+  // In rerun mode seed the draft from the persisted profiling (read once, as
+  // useState initializers) so the BMI step prefills the stored height/weight.
+  const storedProfiling = useAppStore((s) => s.profiling);
+  const prefill = isRerun ? storedProfiling : null;
 
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1); // 1 forward, -1 back
-  const [goal, setGoal] = useState<Goal | null>(null);
-  const [exercises, setExercises] = useState<boolean | null>(null);
-  const [intensity, setIntensity] = useState<Intensity | null>(null);
-  const [heightCm, setHeightCm] = useState<number | null>(null);
-  const [weightKg, setWeightKg] = useState<number | null>(null);
+  const [goal, setGoal] = useState<Goal | null>(prefill?.goal ?? null);
+  const [exercises, setExercises] = useState<boolean | null>(
+    prefill?.exercises ?? null,
+  );
+  const [intensity, setIntensity] = useState<Intensity | null>(
+    prefill?.intensity ?? null,
+  );
+  const [heightCm, setHeightCm] = useState<number | null>(
+    prefill?.heightCm ?? null,
+  );
+  const [weightKg, setWeightKg] = useState<number | null>(
+    prefill?.weightKg ?? null,
+  );
 
   function goNext() {
+    // Gate the mandatory BMI step: never advance past it without valid input
+    // (the step's own disabled Lanjut covers this; this is the belt-and-braces).
+    if (step === BMI_STEP && !isValidBmiInput(heightCm ?? NaN, weightKg ?? NaN)) {
+      return;
+    }
     setDirection(1);
     setStep((s) => Math.min(s + 1, TOTAL_STEPS - 1));
   }
@@ -90,6 +111,15 @@ export function OnboardingFlow() {
       intensity={intensity}
       onExercisesChange={handleExercisesChange}
       onIntensityChange={setIntensity}
+      onNext={goNext}
+      onBack={goBack}
+    />,
+    <BmiStep
+      key="bmi"
+      heightCm={heightCm}
+      weightKg={weightKg}
+      onHeightChange={setHeightCm}
+      onWeightChange={setWeightKg}
       onNext={goNext}
       onBack={goBack}
     />,
